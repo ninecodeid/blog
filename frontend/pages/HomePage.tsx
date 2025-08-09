@@ -53,43 +53,45 @@ export default function HomePage() {
     {
       icon: Code,
       title: "Software Solutions",
-      description: "Panduan lengkap pengembangan software dan aplikasi modern",
-      color: "from-blue-500 to-cyan-500"
+      description: "Complete guides for modern software development and applications",
+      color: "text-blue-600 dark:text-blue-400",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20"
     },
     {
       icon: Cpu,
       title: "Hardware Insights",
-      description: "Review dan tips seputar perangkat keras komputer terbaru",
-      color: "from-purple-500 to-pink-500"
+      description: "Reviews and tips about the latest computer hardware",
+      color: "text-purple-600 dark:text-purple-400",
+      bgColor: "bg-purple-50 dark:bg-purple-900/20"
     },
     {
       icon: Lightbulb,
       title: "Tech Tips",
-      description: "Tips dan trik praktis untuk memaksimalkan teknologi Anda",
-      color: "from-orange-500 to-red-500"
+      description: "Practical tips and tricks to maximize your technology",
+      color: "text-orange-600 dark:text-orange-400",
+      bgColor: "bg-orange-50 dark:bg-orange-900/20"
     }
   ];
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900/20 py-20 sm:py-32">
+      <section className="relative overflow-hidden bg-white dark:bg-gray-900 py-16 sm:py-24 lg:py-32">
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400/10 dark:bg-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400/10 dark:bg-purple-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-400/5 to-purple-400/5 rounded-full blur-3xl animate-spin" style={{ animationDuration: '20s' }}></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-100 dark:bg-purple-900/20 rounded-full blur-3xl"></div>
         </div>
 
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="inline-flex items-center space-x-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full text-sm font-medium mb-6 backdrop-blur-sm border border-blue-200 dark:border-blue-700">
+            <div className="inline-flex items-center space-x-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full text-sm font-medium mb-6 border border-blue-200 dark:border-blue-700">
               <Sparkles className="w-4 h-4" />
               <span>Welcome to the Future of Technology</span>
             </div>
             
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient bg-300% bg-size-200">
+              <span className="text-blue-600 dark:text-blue-400">
                 EndieTech
               </span>
               <br />
@@ -99,23 +101,23 @@ export default function HomePage() {
             </h1>
             
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Jelajahi dunia teknologi dengan panduan lengkap, tips praktis, dan solusi inovatif 
-              untuk semua kebutuhan digital Anda. Dari hardware hingga software, kami siap membantu.
+              Explore the world of technology with complete guides, practical tips, and innovative solutions 
+              for all your digital needs. From hardware to software, we're here to help.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Button 
                 size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group border-0"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-0"
                 onClick={() => document.getElementById('articles')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Explore Articles
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button 
                 variant="outline"
                 size="lg"
-                className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 px-8 py-4 text-lg font-medium rounded-xl transition-all duration-300 hover:scale-105 hover:bg-blue-50 dark:hover:bg-blue-900/30"
+                className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 px-8 py-4 text-lg font-medium rounded-lg transition-all duration-300 hover:bg-blue-50 dark:hover:bg-blue-900/30"
                 onClick={() => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Browse Categories
@@ -126,7 +128,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+      <section className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -137,22 +139,22 @@ export default function HomePage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <div 
                   key={index}
-                  className="group p-8 bg-gray-50 dark:bg-gray-700 rounded-2xl hover:bg-white dark:hover:bg-gray-600 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500"
+                  className={`group p-6 lg:p-8 ${feature.bgColor} rounded-lg hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 hover:shadow-lg border border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500`}
                   style={{
                     animationDelay: `${index * 200}ms`,
                     animation: 'fadeInUp 0.6s ease-out forwards'
                   }}
                 >
-                  <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                    <Icon className="w-8 h-8 text-white" />
+                  <div className={`w-12 h-12 lg:w-16 lg:h-16 ${feature.bgColor} rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className={`w-6 h-6 lg:w-8 lg:h-8 ${feature.color}`} />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                  <h3 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
                     {feature.title}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -166,7 +168,7 @@ export default function HomePage() {
       </section>
 
       {/* Latest Articles by Category */}
-      <section id="categories" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <section id="categories" className="py-16 sm:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -178,11 +180,11 @@ export default function HomePage() {
           </div>
 
           {categories.map((category, categoryIndex) => (
-            <div key={category.id} className="mb-20">
+            <div key={category.id} className="mb-16 lg:mb-20">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8 gap-4">
                 <div className="flex items-center space-x-4">
                   <div 
-                    className="w-6 h-6 rounded-full shadow-lg"
+                    className="w-6 h-6 rounded-full"
                     style={{ backgroundColor: category.color }}
                   />
                   <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
@@ -196,7 +198,7 @@ export default function HomePage() {
                 </div>
                 <Button 
                   variant="outline" 
-                  className="border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 hover:scale-105 w-fit"
+                  className="border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 w-fit"
                   onClick={() => setSelectedCategoryId(category.id)}
                 >
                   View All
@@ -211,7 +213,7 @@ export default function HomePage() {
       </section>
 
       {/* Recommended Articles */}
-      <section className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+      <section className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center space-x-3 mb-4">
@@ -230,7 +232,7 @@ export default function HomePage() {
       </section>
 
       {/* Random Recommendations */}
-      <section className="py-20 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 transition-colors duration-300">
+      <section className="py-16 sm:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center space-x-3 mb-4">
@@ -249,7 +251,7 @@ export default function HomePage() {
       </section>
 
       {/* All Articles Section */}
-      <section id="articles" className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+      <section id="articles" className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -290,7 +292,7 @@ export default function HomePage() {
           )}
 
           {articlesData && articlesData.articles && articlesData.articles.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
               {articlesData.articles.map((article, index) => (
                 <ArticleCard key={article.id} article={article} index={index} />
               ))}
@@ -338,7 +340,7 @@ function CategoryArticles({ categoryId, startIndex = 0 }: { categoryId: number; 
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
       {data.articles.map((article, index) => (
         <ArticleCard key={article.id} article={article} index={startIndex + index} />
       ))}
@@ -369,7 +371,7 @@ function RecommendedArticles() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
       {data.articles.map((article, index) => (
         <ArticleCard key={article.id} article={article} index={index} />
       ))}
@@ -403,7 +405,7 @@ function RandomArticles() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
       {data.articles.map((article, index) => (
         <ArticleCard key={article.id} article={article} index={index} />
       ))}

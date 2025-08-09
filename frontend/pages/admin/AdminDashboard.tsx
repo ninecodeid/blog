@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FileText, Eye, Calendar, Tag, TrendingUp, Users, BarChart3 } from "lucide-react";
+import { FileText, Eye, Calendar, Tag, TrendingUp, BarChart3 } from "lucide-react";
 import backend from "~backend/client";
 
 export default function AdminDashboard() {
@@ -45,38 +45,34 @@ export default function AdminDashboard() {
       value: allArticles?.total || 0,
       icon: FileText,
       color: "text-blue-600 dark:text-blue-400",
-      bgColor: "bg-blue-50 dark:bg-blue-900/30",
-      gradient: "from-blue-500 to-blue-600"
+      bgColor: "bg-blue-50 dark:bg-blue-900/30"
     },
     {
       title: "Published",
       value: publishedArticles?.total || 0,
       icon: Eye,
       color: "text-green-600 dark:text-green-400",
-      bgColor: "bg-green-50 dark:bg-green-900/30",
-      gradient: "from-green-500 to-green-600"
+      bgColor: "bg-green-50 dark:bg-green-900/30"
     },
     {
       title: "Drafts",
       value: (allArticles?.total || 0) - (publishedArticles?.total || 0),
       icon: Calendar,
       color: "text-yellow-600 dark:text-yellow-400",
-      bgColor: "bg-yellow-50 dark:bg-yellow-900/30",
-      gradient: "from-yellow-500 to-yellow-600"
+      bgColor: "bg-yellow-50 dark:bg-yellow-900/30"
     },
     {
       title: "Categories",
       value: categoriesData?.total || 0,
       icon: Tag,
       color: "text-purple-600 dark:text-purple-400",
-      bgColor: "bg-purple-50 dark:bg-purple-900/30",
-      gradient: "from-purple-500 to-purple-600"
+      bgColor: "bg-purple-50 dark:bg-purple-900/30"
     },
   ];
 
   if (allLoading || publishedLoading) {
     return (
-      <div className="p-8">
+      <div className="p-6 lg:p-8">
         <div className="text-center py-20">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
           <p className="text-gray-600 dark:text-gray-300 mt-6 text-lg">Loading dashboard...</p>
@@ -86,18 +82,18 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-6 lg:p-8">
       {/* Header */}
-      <div className="mb-12">
+      <div className="mb-8 lg:mb-12">
         <div className="flex items-center space-x-3 mb-4">
-          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
-            <BarChart3 className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 lg:w-12 lg:h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+            <BarChart3 className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">
               Dashboard
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">
+            <p className="text-gray-600 dark:text-gray-300 text-base lg:text-lg">
               Welcome back to EndieTech Admin
             </p>
           </div>
@@ -105,13 +101,13 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8 lg:mb-12">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
             <div
               key={index}
-              className="group bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 dark:hover:border-blue-600"
+              className="group bg-white dark:bg-gray-800 p-4 lg:p-6 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:border-gray-300 dark:hover:border-gray-600"
               style={{
                 animationDelay: `${index * 100}ms`,
                 animation: 'fadeInUp 0.6s ease-out forwards'
@@ -122,29 +118,28 @@ export default function AdminDashboard() {
                   <p className="text-gray-600 dark:text-gray-300 text-sm font-medium mb-2">
                     {stat.title}
                   </p>
-                  <p className="text-3xl font-bold text-gray-900 dark:text-white group-hover:scale-105 transition-transform duration-200">
+                  <p className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
                     {stat.value}
                   </p>
                 </div>
-                <div className={`p-4 rounded-2xl ${stat.bgColor} group-hover:scale-110 transition-all duration-300 shadow-lg`}>
-                  <Icon className={`h-6 w-6 ${stat.color}`} />
+                <div className={`p-3 lg:p-4 rounded-lg ${stat.bgColor}`}>
+                  <Icon className={`h-5 w-5 lg:h-6 lg:w-6 ${stat.color}`} />
                 </div>
               </div>
-              <div className={`mt-4 h-1 bg-gradient-to-r ${stat.gradient} rounded-full opacity-20 group-hover:opacity-100 transition-opacity duration-300`}></div>
             </div>
           );
         })}
       </div>
 
       {/* Content Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
         {/* Recent Articles */}
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg">
+        <div className="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-lg border border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h3 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
               Recent Articles
             </h3>
           </div>
@@ -153,7 +148,7 @@ export default function AdminDashboard() {
               allArticles.articles.slice(0, 5).map((article, index) => (
                 <div
                   key={article.id}
-                  className="group flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-200 hover:scale-[1.02]"
+                  className="group flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200"
                   style={{
                     animationDelay: `${index * 100}ms`,
                     animation: 'fadeInLeft 0.6s ease-out forwards'
@@ -167,13 +162,13 @@ export default function AdminDashboard() {
                       {new Date(article.createdAt).toLocaleDateString("id-ID")}
                     </p>
                   </div>
-                  <div className="ml-4">
+                  <div className="ml-4 flex-shrink-0">
                     {article.published ? (
-                      <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded-full font-medium">
+                      <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded-full font-medium">
                         Published
                       </span>
                     ) : (
-                      <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs rounded-full font-medium">
+                      <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs rounded-full font-medium">
                         Draft
                       </span>
                     )}
@@ -190,12 +185,12 @@ export default function AdminDashboard() {
         </div>
 
         {/* Categories Overview */}
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg">
+        <div className="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-lg border border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
-              <Tag className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+              <Tag className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h3 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
               Categories
             </h3>
           </div>
@@ -209,7 +204,7 @@ export default function AdminDashboard() {
                 return (
                   <div
                     key={category.id}
-                    className="group flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all duration-200 hover:scale-[1.02]"
+                    className="group flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200"
                     style={{
                       animationDelay: `${index * 100}ms`,
                       animation: 'fadeInRight 0.6s ease-out forwards'
@@ -217,10 +212,10 @@ export default function AdminDashboard() {
                   >
                     <div className="flex items-center space-x-4">
                       <div 
-                        className="w-6 h-6 rounded-full shadow-lg"
+                        className="w-4 h-4 lg:w-6 lg:h-6 rounded-full"
                         style={{ backgroundColor: category.color }}
                       />
-                      <div>
+                      <div className="min-w-0">
                         <span className="text-gray-900 dark:text-white font-medium group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
                           {category.name}
                         </span>
@@ -231,7 +226,7 @@ export default function AdminDashboard() {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 flex-shrink-0">
                       <span className="text-blue-600 dark:text-blue-400 font-bold text-lg">
                         {count}
                       </span>

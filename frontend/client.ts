@@ -33,7 +33,9 @@ const BROWSER = typeof globalThis === "object" && ("window" in globalThis);
  * Client is an API client for the  Encore application.
  */
 export class Client {
+    public readonly auth: auth.ServiceClient
     public readonly blog: blog.ServiceClient
+    public readonly settings: settings.ServiceClient
     public readonly storage: storage.ServiceClient
     private readonly options: ClientOptions
     private readonly target: string
@@ -49,7 +51,9 @@ export class Client {
         this.target = target
         this.options = options ?? {}
         const base = new BaseClient(this.target, this.options)
+        this.auth = new auth.ServiceClient(base)
         this.blog = new blog.ServiceClient(base)
+        this.settings = new settings.ServiceClient(base)
         this.storage = new storage.ServiceClient(base)
     }
 
@@ -79,6 +83,32 @@ export interface ClientOptions {
 
     /** Default RequestInit to be used for the client */
     requestInit?: Omit<RequestInit, "headers"> & { headers?: Record<string, string> }
+}
+
+/**
+ * Import the endpoint handlers to derive the types for the client.
+ */
+import { login as api_auth_login_login } from "~backend/auth/login";
+
+export namespace auth {
+
+    export class ServiceClient {
+        private baseClient: BaseClient
+
+        constructor(baseClient: BaseClient) {
+            this.baseClient = baseClient
+            this.login = this.login.bind(this)
+        }
+
+        /**
+         * Admin login endpoint.
+         */
+        public async login(params: RequestType<typeof api_auth_login_login>): Promise<ResponseType<typeof api_auth_login_login>> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI(`/auth/login`, {method: "POST", body: JSON.stringify(params)})
+            return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_auth_login_login>
+        }
+    }
 }
 
 /**
@@ -214,6 +244,48 @@ export namespace blog {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI(`/categories/${encodeURIComponent(params.id)}`, {method: "PUT", body: JSON.stringify(body)})
             return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_blog_update_updateCategory>
+        }
+    }
+}
+
+/**
+ * Import the endpoint handlers to derive the types for the client.
+ */
+import { getSettings as api_settings_get_getSettings } from "~backend/settings/get";
+import { updateSetting as api_settings_update_updateSetting } from "~backend/settings/update";
+
+export namespace settings {
+
+    export class ServiceClient {
+        private baseClient: BaseClient
+
+        constructor(baseClient: BaseClient) {
+            this.baseClient = baseClient
+            this.getSettings = this.getSettings.bind(this)
+            this.updateSetting = this.updateSetting.bind(this)
+        }
+
+        /**
+         * Retrieves all settings.
+         */
+        public async getSettings(): Promise<ResponseType<typeof api_settings_get_getSettings>> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI(`/settings`, {method: "GET", body: undefined})
+            return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_settings_get_getSettings>
+        }
+
+        /**
+         * Updates a setting value.
+         */
+        public async updateSetting(params: RequestType<typeof api_settings_update_updateSetting>): Promise<ResponseType<typeof api_settings_update_updateSetting>> {
+            // Construct the body with only the fields which we want encoded within the body (excluding query string or header fields)
+            const body: Record<string, any> = {
+                value: params.value,
+            }
+
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI(`/settings/${encodeURIComponent(params.key)}`, {method: "PUT", body: JSON.stringify(body)})
+            return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_settings_update_updateSetting>
         }
     }
 }
