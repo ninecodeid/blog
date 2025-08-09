@@ -20,13 +20,13 @@ export default function ImageUpload({ value, onChange, onRemove }: ImageUploadPr
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
+      alert('Silakan pilih file gambar');
       return;
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('File size must be less than 5MB');
+      alert('Ukuran file harus kurang dari 5MB');
       return;
     }
 
@@ -49,7 +49,7 @@ export default function ImageUpload({ value, onChange, onRemove }: ImageUploadPr
           onChange(response.url);
         } catch (error) {
           console.error('Upload error:', error);
-          alert('Failed to upload image');
+          alert('Gagal mengupload gambar');
         } finally {
           setIsUploading(false);
         }
@@ -58,7 +58,7 @@ export default function ImageUpload({ value, onChange, onRemove }: ImageUploadPr
       reader.readAsDataURL(file);
     } catch (error) {
       console.error('File read error:', error);
-      alert('Failed to read file');
+      alert('Gagal membaca file');
       setIsUploading(false);
     }
   };
@@ -72,7 +72,7 @@ export default function ImageUpload({ value, onChange, onRemove }: ImageUploadPr
           <img
             src={value}
             alt="Preview"
-            className="w-full h-48 object-cover rounded-lg border border-gray-200"
+            className="w-full h-32 sm:h-48 object-cover rounded-lg border border-gray-200"
           />
           <Button
             type="button"
@@ -86,19 +86,19 @@ export default function ImageUpload({ value, onChange, onRemove }: ImageUploadPr
         </div>
       ) : (
         <div
-          className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer"
+          className="border-2 border-dashed border-gray-300 rounded-lg p-6 sm:p-8 text-center hover:border-blue-400 transition-colors cursor-pointer"
           onClick={() => fileInputRef.current?.click()}
         >
           <div className="flex flex-col items-center space-y-2">
             {isUploading ? (
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-blue-600"></div>
             ) : (
-              <ImageIcon className="h-8 w-8 text-gray-400" />
+              <ImageIcon className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
             )}
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-sm sm:text-base">
               {isUploading ? 'Mengupload...' : 'Klik untuk upload gambar'}
             </p>
-            <p className="text-sm text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-400">
               PNG, JPG, GIF hingga 5MB
             </p>
           </div>

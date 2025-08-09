@@ -13,7 +13,7 @@ export default function AdminLayout() {
       
       <main className="flex-1 lg:ml-64 min-h-screen">
         {/* Mobile Header */}
-        <div className="lg:hidden bg-white border-b border-gray-200 p-4">
+        <div className="lg:hidden bg-white border-b border-gray-200 p-3 sm:p-4">
           <Button
             variant="ghost"
             size="sm"
@@ -24,7 +24,9 @@ export default function AdminLayout() {
           </Button>
         </div>
         
-        <Outlet />
+        <div className="min-h-screen">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

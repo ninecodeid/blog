@@ -9,7 +9,7 @@ interface CategoryFilterProps {
 
 export default function CategoryFilter({ categories, selectedCategoryId, onCategoryChange }: CategoryFilterProps) {
   return (
-    <div className="flex flex-wrap gap-2 mb-8">
+    <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
       <Button
         variant={selectedCategoryId === "All" ? "default" : "outline"}
         size="sm"

@@ -50,11 +50,11 @@ export default function AdminSidebar({ isOpen = true, onClose }: AdminSidebarPro
         isOpen ? "translate-x-0" : "-translate-x-full",
         "lg:translate-x-0"
       )}>
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-4 sm:p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-2">
-              <Monitor className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">TeknisPro</span>
+              <Monitor className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+              <span className="text-lg sm:text-xl font-bold text-gray-900">TeknisPro</span>
             </Link>
             {onClose && (
               <Button
@@ -81,7 +81,7 @@ export default function AdminSidebar({ isOpen = true, onClose }: AdminSidebarPro
                 to={item.href}
                 onClick={onClose}
                 className={cn(
-                  "flex items-center space-x-3 px-6 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors",
+                  "flex items-center space-x-3 px-4 sm:px-6 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors",
                   isActive && "bg-blue-50 text-blue-600 border-r-2 border-blue-600"
                 )}
               >

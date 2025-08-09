@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { Settings, TrendingUp, Clock, Shuffle } from "lucide-react";
+import { Settings, TrendingUp, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import backend from "~backend/client";
 import ArticleCard from "../components/ArticleCard";
@@ -43,55 +43,28 @@ export default function HomePage() {
     },
   });
 
-  const { data: latestArticles } = useQuery({
-    queryKey: ["latest-articles"],
-    queryFn: async () => {
-      try {
-        return await backend.blog.list({ published: true, limit: 6 });
-      } catch (err) {
-        console.error("Failed to fetch latest articles:", err);
-        throw err;
-      }
-    },
-  });
-
-  const { data: recommendedArticles } = useQuery({
-    queryKey: ["recommended-articles"],
-    queryFn: async () => {
-      try {
-        const allArticles = await backend.blog.list({ published: true, limit: 100 });
-        // Shuffle articles for random recommendations
-        const shuffled = [...(allArticles.articles || [])].sort(() => 0.5 - Math.random());
-        return { articles: shuffled.slice(0, 6), total: shuffled.length };
-      } catch (err) {
-        console.error("Failed to fetch recommended articles:", err);
-        throw err;
-      }
-    },
-  });
-
   const categories = categoriesData?.categories || [];
 
   return (
-    <div>
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-white py-16 lg:py-24">
+      <section className="bg-white py-12 sm:py-16 lg:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
             Solusi Komputer{" "}
             <span className="text-blue-600">Terpercaya</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
             Dapatkan panduan lengkap, tips praktis, dan solusi terbaik untuk semua kebutuhan teknologi komputer Anda. 
             Dari hardware hingga software, kami siap membantu.
           </p>
           
           {/* Admin Access Button */}
-          <div className="mb-12">
+          <div className="mb-8 sm:mb-12">
             <Link to="/admin">
               <Button 
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 text-base sm:text-lg"
               >
                 <Settings className="h-5 w-5 mr-2" />
                 Akses Admin Panel
@@ -102,32 +75,35 @@ export default function HomePage() {
       </section>
 
       {/* Latest Articles by Category */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-12 sm:py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Artikel Terbaru
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+              Artikel Terbaru per Kategori
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto px-4">
               Temukan artikel terbaru sesuai kategori yang Anda minati
             </p>
           </div>
 
           {categories.map((category) => (
-            <div key={category.id} className="mb-16">
-              <div className="flex items-center justify-between mb-6">
+            <div key={category.id} className="mb-12 sm:mb-16">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-3">
                 <div className="flex items-center space-x-3">
                   <div 
-                    className="w-4 h-4 rounded-full"
+                    className="w-4 h-4 rounded-full flex-shrink-0"
                     style={{ backgroundColor: category.color }}
                   />
-                  <h3 className="text-2xl font-bold text-gray-900">{category.name}</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{category.name}</h3>
                 </div>
-                <Link to={`/?category=${category.id}`}>
-                  <Button variant="outline" size="sm" className="border-gray-300 text-gray-600 hover:border-blue-300">
-                    Lihat Semua
-                  </Button>
-                </Link>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="border-gray-300 text-gray-600 hover:border-blue-300 w-fit"
+                  onClick={() => setSelectedCategoryId(category.id)}
+                >
+                  Lihat Semua
+                </Button>
               </div>
 
               <CategoryArticles categoryId={category.id} />
@@ -137,41 +113,35 @@ export default function HomePage() {
       </section>
 
       {/* Recommended Articles */}
-      <section className="py-16 bg-white">
+      <section className="py-12 sm:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <TrendingUp className="h-8 w-8 text-blue-600" />
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="flex items-center justify-center space-x-2 mb-3 sm:mb-4">
+              <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
                 Rekomendasi Terbaru
               </h2>
             </div>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto px-4">
               Artikel pilihan yang mungkin menarik untuk Anda
             </p>
           </div>
 
-          {recommendedArticles && recommendedArticles.articles && recommendedArticles.articles.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recommendedArticles.articles.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))}
-            </div>
-          )}
+          <RecommendedArticles />
         </div>
       </section>
 
       {/* Random Recommendations */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-12 sm:py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <Shuffle className="h-8 w-8 text-purple-600" />
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="flex items-center justify-center space-x-2 mb-3 sm:mb-4">
+              <Shuffle className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600" />
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
                 Rekomendasi Random
               </h2>
             </div>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto px-4">
               Jelajahi artikel menarik lainnya secara acak
             </p>
           </div>
@@ -181,22 +151,24 @@ export default function HomePage() {
       </section>
 
       {/* All Articles Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 sm:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
               Semua Artikel
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto px-4">
               Jelajahi semua artikel berdasarkan kategori
             </p>
           </div>
           
-          <CategoryFilter
-            categories={categories}
-            selectedCategoryId={selectedCategoryId}
-            onCategoryChange={setSelectedCategoryId}
-          />
+          <div className="mb-6 sm:mb-8">
+            <CategoryFilter
+              categories={categories}
+              selectedCategoryId={selectedCategoryId}
+              onCategoryChange={setSelectedCategoryId}
+            />
+          </div>
 
           {isLoading && (
             <div className="text-center py-12">
@@ -215,7 +187,7 @@ export default function HomePage() {
           )}
 
           {articlesData && articlesData.articles && articlesData.articles.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {articlesData.articles.map((article) => (
                 <ArticleCard key={article.id} article={article} />
               ))}
@@ -251,14 +223,45 @@ function CategoryArticles({ categoryId }: { categoryId: number }) {
 
   if (!data || !data.articles || data.articles.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-6 sm:py-8">
         <p className="text-gray-500">Belum ada artikel untuk kategori ini.</p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      {data.articles.map((article) => (
+        <ArticleCard key={article.id} article={article} />
+      ))}
+    </div>
+  );
+}
+
+// Component for recommended articles
+function RecommendedArticles() {
+  const { data } = useQuery({
+    queryKey: ["recommended-articles"],
+    queryFn: async () => {
+      try {
+        return await backend.blog.list({ published: true, limit: 6 });
+      } catch (err) {
+        console.error("Failed to fetch recommended articles:", err);
+        throw err;
+      }
+    },
+  });
+
+  if (!data || !data.articles || data.articles.length === 0) {
+    return (
+      <div className="text-center py-6 sm:py-8">
+        <p className="text-gray-500">Belum ada artikel.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {data.articles.map((article) => (
         <ArticleCard key={article.id} article={article} />
       ))}
@@ -269,7 +272,7 @@ function CategoryArticles({ categoryId }: { categoryId: number }) {
 // Component for random articles
 function RandomArticles() {
   const { data } = useQuery({
-    queryKey: ["random-articles", Math.random()], // Add random to force refresh
+    queryKey: ["random-articles", Math.random()],
     queryFn: async () => {
       try {
         const allArticles = await backend.blog.list({ published: true, limit: 100 });
@@ -280,19 +283,19 @@ function RandomArticles() {
         throw err;
       }
     },
-    refetchInterval: 30000, // Refresh every 30 seconds for new random articles
+    refetchInterval: 30000,
   });
 
   if (!data || !data.articles || data.articles.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-6 sm:py-8">
         <p className="text-gray-500">Belum ada artikel.</p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {data.articles.map((article) => (
         <ArticleCard key={article.id} article={article} />
       ))}

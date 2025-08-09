@@ -196,21 +196,21 @@ export default function AdminArticleForm() {
 
   return (
     <div className="p-4 lg:p-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-        <div className="flex items-center space-x-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-4">
+        <div className="flex items-start sm:items-center space-x-4">
           <Button
             variant="ghost"
             onClick={() => navigate("/admin/articles")}
-            className="text-gray-600 hover:text-blue-600"
+            className="text-gray-600 hover:text-blue-600 flex-shrink-0"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Kembali
           </Button>
           <div>
-            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
               {isEdit ? "Edit Artikel" : "Tambah Artikel"}
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-sm sm:text-base">
               {isEdit ? "Perbarui artikel yang sudah ada" : "Buat artikel baru"}
             </p>
           </div>
@@ -218,8 +218,8 @@ export default function AdminArticleForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="max-w-4xl">
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <div className="lg:col-span-2">
               <Label htmlFor="title" className="text-gray-700 font-medium">
                 Judul *
@@ -249,7 +249,7 @@ export default function AdminArticleForm() {
               />
             </div>
 
-            <div>
+            <div className="lg:col-span-2">
               <Label htmlFor="category" className="text-gray-700 font-medium">
                 Kategori *
               </Label>
@@ -335,7 +335,7 @@ export default function AdminArticleForm() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-8 pt-6 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end space-y-3 sm:space-y-0 sm:space-x-4 mt-6 sm:mt-8 pt-6 border-t border-gray-200">
             <Button
               type="button"
               variant="outline"

@@ -240,9 +240,9 @@ export default function AdminCategories() {
 
   return (
     <div className="p-4 lg:p-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Kategori</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Kategori</h1>
           <p className="text-gray-600">Kelola kategori artikel blog</p>
         </div>
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
@@ -252,7 +252,7 @@ export default function AdminCategories() {
               Tambah Kategori
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-white border-gray-200">
+          <DialogContent className="bg-white border-gray-200 mx-4 max-w-md">
             <DialogHeader>
               <DialogTitle className="text-gray-900">Tambah Kategori Baru</DialogTitle>
               <DialogDescription className="text-gray-600">
@@ -295,7 +295,7 @@ export default function AdminCategories() {
                         key={color.value}
                         type="button"
                         onClick={() => setFormData(prev => ({ ...prev, color: color.value }))}
-                        className={`w-full h-10 rounded-lg border-2 transition-all ${
+                        className={`w-full h-8 sm:h-10 rounded-lg border-2 transition-all ${
                           formData.color === color.value
                             ? "border-gray-900 scale-105"
                             : "border-gray-300 hover:border-gray-400"
@@ -307,19 +307,19 @@ export default function AdminCategories() {
                   </div>
                 </div>
               </div>
-              <DialogFooter className="mt-6">
+              <DialogFooter className="mt-6 flex-col sm:flex-row gap-2">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setIsCreateOpen(false)}
-                  className="border-gray-300 text-gray-600 hover:bg-gray-50"
+                  className="border-gray-300 text-gray-600 hover:bg-gray-50 w-full sm:w-auto"
                 >
                   Batal
                 </Button>
                 <Button
                   type="submit"
                   disabled={createMutation.isPending}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
                 >
                   {createMutation.isPending ? (
                     <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -341,9 +341,9 @@ export default function AdminCategories() {
               <TableHeader>
                 <TableRow className="border-gray-200">
                   <TableHead className="text-gray-700 font-semibold">Nama</TableHead>
-                  <TableHead className="text-gray-700 font-semibold">Deskripsi</TableHead>
+                  <TableHead className="text-gray-700 font-semibold hidden sm:table-cell">Deskripsi</TableHead>
                   <TableHead className="text-gray-700 font-semibold">Warna</TableHead>
-                  <TableHead className="text-gray-700 font-semibold">Tanggal Dibuat</TableHead>
+                  <TableHead className="text-gray-700 font-semibold hidden md:table-cell">Tanggal Dibuat</TableHead>
                   <TableHead className="text-gray-700 font-semibold text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
@@ -353,7 +353,7 @@ export default function AdminCategories() {
                     <TableCell className="text-gray-900 font-medium">
                       {category.name}
                     </TableCell>
-                    <TableCell className="text-gray-600">
+                    <TableCell className="text-gray-600 hidden sm:table-cell">
                       {category.description || "-"}
                     </TableCell>
                     <TableCell>
@@ -363,30 +363,30 @@ export default function AdminCategories() {
                           style={{ backgroundColor: category.color }}
                         />
                         <Badge 
-                          className="text-white border-0"
+                          className="text-white border-0 text-xs"
                           style={{ backgroundColor: category.color }}
                         >
                           {category.name}
                         </Badge>
                       </div>
                     </TableCell>
-                    <TableCell className="text-gray-600">
+                    <TableCell className="text-gray-600 hidden md:table-cell text-sm">
                       {formatDate(category.createdAt)}
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex items-center justify-end space-x-2">
+                      <div className="flex items-center justify-end space-x-1 sm:space-x-2">
                         <Dialog open={editingCategory?.id === category.id} onOpenChange={(open) => !open && setEditingCategory(null)}>
                           <DialogTrigger asChild>
                             <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => handleEdit(category)}
-                              className="text-gray-500 hover:text-blue-600"
+                              className="text-gray-500 hover:text-blue-600 p-1 sm:p-2"
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="bg-white border-gray-200">
+                          <DialogContent className="bg-white border-gray-200 mx-4 max-w-md">
                             <DialogHeader>
                               <DialogTitle className="text-gray-900">Edit Kategori</DialogTitle>
                               <DialogDescription className="text-gray-600">
@@ -429,7 +429,7 @@ export default function AdminCategories() {
                                         key={color.value}
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, color: color.value }))}
-                                        className={`w-full h-10 rounded-lg border-2 transition-all ${
+                                        className={`w-full h-8 sm:h-10 rounded-lg border-2 transition-all ${
                                           formData.color === color.value
                                             ? "border-gray-900 scale-105"
                                             : "border-gray-300 hover:border-gray-400"
@@ -441,19 +441,19 @@ export default function AdminCategories() {
                                   </div>
                                 </div>
                               </div>
-                              <DialogFooter className="mt-6">
+                              <DialogFooter className="mt-6 flex-col sm:flex-row gap-2">
                                 <Button
                                   type="button"
                                   variant="outline"
                                   onClick={() => setEditingCategory(null)}
-                                  className="border-gray-300 text-gray-600 hover:bg-gray-50"
+                                  className="border-gray-300 text-gray-600 hover:bg-gray-50 w-full sm:w-auto"
                                 >
                                   Batal
                                 </Button>
                                 <Button
                                   type="submit"
                                   disabled={updateMutation.isPending}
-                                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                                  className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
                                 >
                                   {updateMutation.isPending ? (
                                     <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -471,12 +471,12 @@ export default function AdminCategories() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="text-gray-500 hover:text-red-600"
+                              className="text-gray-500 hover:text-red-600 p-1 sm:p-2"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </AlertDialogTrigger>
-                          <AlertDialogContent className="bg-white border-gray-200">
+                          <AlertDialogContent className="bg-white border-gray-200 mx-4">
                             <AlertDialogHeader>
                               <AlertDialogTitle className="text-gray-900">
                                 Hapus Kategori
@@ -486,13 +486,13 @@ export default function AdminCategories() {
                                 Kategori yang memiliki artikel tidak dapat dihapus.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel className="border-gray-300 text-gray-600 hover:bg-gray-50">
+                            <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+                              <AlertDialogCancel className="border-gray-300 text-gray-600 hover:bg-gray-50 w-full sm:w-auto">
                                 Batal
                               </AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deleteMutation.mutate(category.id)}
-                                className="bg-red-600 hover:bg-red-700 text-white"
+                                className="bg-red-600 hover:bg-red-700 text-white w-full sm:w-auto"
                                 disabled={deleteMutation.isPending}
                               >
                                 Hapus

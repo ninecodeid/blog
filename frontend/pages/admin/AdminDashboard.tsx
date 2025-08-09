@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FileText, Eye, Calendar, TrendingUp, Tag } from "lucide-react";
+import { FileText, Eye, Calendar, Tag } from "lucide-react";
 import backend from "~backend/client";
 
 export default function AdminDashboard() {
@@ -83,30 +83,30 @@ export default function AdminDashboard() {
 
   return (
     <div className="p-4 lg:p-8">
-      <div className="mb-8">
-        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
         <p className="text-gray-600">Selamat datang di panel admin TeknisPro</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 sm:mb-8">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
             <div
               key={index}
-              className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm"
+              className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm"
             >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-600 text-sm font-medium">
                     {stat.title}
                   </p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1">
                     {stat.value}
                   </p>
                 </div>
-                <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                  <Icon className={`h-6 w-6 ${stat.color}`} />
+                <div className={`p-2 sm:p-3 rounded-lg ${stat.bgColor}`}>
+                  <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${stat.color}`} />
                 </div>
               </div>
             </div>
@@ -114,8 +114,8 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Artikel Terbaru
           </h3>
@@ -127,10 +127,10 @@ export default function AdminDashboard() {
                   className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-gray-900 font-medium truncate">
+                    <p className="text-gray-900 font-medium truncate text-sm sm:text-base">
                       {article.title}
                     </p>
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-gray-500 text-xs sm:text-sm">
                       {new Date(article.createdAt).toLocaleDateString("id-ID")}
                     </p>
                   </div>
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+        <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Kategori Artikel
           </h3>
@@ -174,9 +174,9 @@ export default function AdminDashboard() {
                         className="w-4 h-4 rounded-full"
                         style={{ backgroundColor: category.color }}
                       />
-                      <span className="text-gray-900 font-medium">{category.name}</span>
+                      <span className="text-gray-900 font-medium text-sm sm:text-base">{category.name}</span>
                     </div>
-                    <span className="text-blue-600 font-semibold">
+                    <span className="text-blue-600 font-semibold text-sm">
                       {count} artikel
                     </span>
                   </div>

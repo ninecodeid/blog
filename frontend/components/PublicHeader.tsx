@@ -8,11 +8,11 @@ export default function PublicHeader() {
 
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <Monitor className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">TeknisPro</span>
+            <Monitor className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+            <span className="text-lg sm:text-xl font-bold text-gray-900">TeknisPro</span>
           </Link>
           
           {/* Desktop Navigation */}
@@ -34,10 +34,10 @@ export default function PublicHeader() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-gray-600 hover:text-blue-600"
+            className="md:hidden p-2 text-gray-600 hover:text-blue-600 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
           </button>
         </div>
 

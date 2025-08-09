@@ -130,9 +130,9 @@ export default function AdminArticles() {
 
   return (
     <div className="p-4 lg:p-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Artikel</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Artikel</h1>
           <p className="text-gray-600">Kelola semua artikel blog</p>
         </div>
         <Link to="/admin/articles/new">
@@ -150,9 +150,9 @@ export default function AdminArticles() {
               <TableHeader>
                 <TableRow className="border-gray-200">
                   <TableHead className="text-gray-700 font-semibold">Judul</TableHead>
-                  <TableHead className="text-gray-700 font-semibold">Kategori</TableHead>
+                  <TableHead className="text-gray-700 font-semibold hidden sm:table-cell">Kategori</TableHead>
                   <TableHead className="text-gray-700 font-semibold">Status</TableHead>
-                  <TableHead className="text-gray-700 font-semibold">Tanggal</TableHead>
+                  <TableHead className="text-gray-700 font-semibold hidden md:table-cell">Tanggal</TableHead>
                   <TableHead className="text-gray-700 font-semibold text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
@@ -163,8 +163,19 @@ export default function AdminArticles() {
                       <div className="max-w-xs truncate">
                         {article.title}
                       </div>
+                      {/* Show category on mobile */}
+                      <div className="sm:hidden mt-1">
+                        {article.category && (
+                          <Badge 
+                            className="text-white border-0 text-xs"
+                            style={{ backgroundColor: article.category.color }}
+                          >
+                            {article.category.name}
+                          </Badge>
+                        )}
+                      </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       {article.category && (
                         <Badge 
                           className="text-white border-0"
@@ -176,20 +187,20 @@ export default function AdminArticles() {
                     </TableCell>
                     <TableCell>
                       {article.published ? (
-                        <Badge className="bg-green-100 text-green-700 border-green-200">
+                        <Badge className="bg-green-100 text-green-700 border-green-200 text-xs">
                           Published
                         </Badge>
                       ) : (
-                        <Badge className="bg-yellow-100 text-yellow-700 border-yellow-200">
+                        <Badge className="bg-yellow-100 text-yellow-700 border-yellow-200 text-xs">
                           Draft
                         </Badge>
                       )}
                     </TableCell>
-                    <TableCell className="text-gray-600">
+                    <TableCell className="text-gray-600 hidden md:table-cell text-sm">
                       {formatDate(article.createdAt)}
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex items-center justify-end space-x-2">
+                      <div className="flex items-center justify-end space-x-1 sm:space-x-2">
                         <Button
                           variant="ghost"
                           size="sm"
@@ -199,7 +210,7 @@ export default function AdminArticles() {
                               published: !article.published,
                             })
                           }
-                          className="text-gray-500 hover:text-blue-600"
+                          className="text-gray-500 hover:text-blue-600 p-1 sm:p-2"
                           disabled={togglePublishMutation.isPending}
                         >
                           {article.published ? (
@@ -212,7 +223,7 @@ export default function AdminArticles() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="text-gray-500 hover:text-blue-600"
+                            className="text-gray-500 hover:text-blue-600 p-1 sm:p-2"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -222,12 +233,12 @@ export default function AdminArticles() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="text-gray-500 hover:text-red-600"
+                              className="text-gray-500 hover:text-red-600 p-1 sm:p-2"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </AlertDialogTrigger>
-                          <AlertDialogContent className="bg-white border-gray-200">
+                          <AlertDialogContent className="bg-white border-gray-200 mx-4">
                             <AlertDialogHeader>
                               <AlertDialogTitle className="text-gray-900">
                                 Hapus Artikel
@@ -237,13 +248,13 @@ export default function AdminArticles() {
                                 Tindakan ini tidak dapat dibatalkan.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel className="border-gray-300 text-gray-600 hover:bg-gray-50">
+                            <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+                              <AlertDialogCancel className="border-gray-300 text-gray-600 hover:bg-gray-50 w-full sm:w-auto">
                                 Batal
                               </AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deleteMutation.mutate(article.id)}
-                                className="bg-red-600 hover:bg-red-700 text-white"
+                                className="bg-red-600 hover:bg-red-700 text-white w-full sm:w-auto"
                                 disabled={deleteMutation.isPending}
                               >
                                 Hapus
