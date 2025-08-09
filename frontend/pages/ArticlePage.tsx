@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, ExternalLink, Download, Clock, Share2, BookOpen } 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import backend from "~backend/client";
+import { useEffect } from "react";
 
 export default function ArticlePage() {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,15 @@ export default function ArticlePage() {
     },
     enabled: !!id,
   });
+
+  // Track article view
+  useEffect(() => {
+    if (article && id) {
+      backend.blog.trackView({ id: parseInt(id) }).catch(err => {
+        console.error("Failed to track view:", err);
+      });
+    }
+  }, [article, id]);
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("id-ID", {

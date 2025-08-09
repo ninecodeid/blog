@@ -39,6 +39,18 @@ export default function AdminDashboard() {
     },
   });
 
+  const { data: analyticsData } = useQuery({
+    queryKey: ["admin-analytics"],
+    queryFn: async () => {
+      try {
+        return await backend.blog.getAnalytics();
+      } catch (err) {
+        console.error("Failed to fetch analytics:", err);
+        throw err;
+      }
+    },
+  });
+
   const stats = [
     {
       title: "Total Artikel",
@@ -55,6 +67,14 @@ export default function AdminDashboard() {
       color: "text-green-600 dark:text-green-400",
       bgColor: "bg-green-50 dark:bg-green-900/30",
       gradient: "from-green-500 to-green-600"
+    },
+    {
+      title: "Total Views",
+      value: analyticsData?.totalViews || 0,
+      icon: Eye,
+      color: "text-blue-600 dark:text-blue-400",
+      bgColor: "bg-blue-50 dark:bg-blue-900/30",
+      gradient: "from-blue-500 to-blue-600"
     },
     {
       title: "Draft",
@@ -194,7 +214,72 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Categories Overview */}
+        {/* Popular Articles */}
+        <div className="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow duration-300">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-orange-600 to-red-600 rounded-xl flex items-center justify-center">
+              <Eye className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
+            </div>
+            <div>
+              <h3 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
+                Artikel Populer
+              </h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">
+                Artikel dengan views terbanyak
+              </p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            {analyticsData?.popularArticles && analyticsData.popularArticles.length > 0 ? (
+              analyticsData.popularArticles.slice(0, 5).map((article, index) => (
+                <div
+                  key={article.id}
+                  className="group flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-[1.02]"
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                    animation: 'fadeInRight 0.6s ease-out forwards'
+                  }}
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-gray-900 dark:text-white font-medium truncate group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-200">
+                      {article.title}
+                    </p>
+                    <div className="flex items-center space-x-2 mt-1">
+                      {article.category && (
+                        <>
+                          <div 
+                            className="w-3 h-3 rounded-full"
+                            style={{ backgroundColor: article.category.color }}
+                          />
+                          <span className="text-gray-500 dark:text-gray-400 text-xs">
+                            {article.category.name}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="ml-4 flex-shrink-0 text-right">
+                    <div className="flex items-center space-x-1">
+                      <Eye className="w-4 h-4 text-gray-400" />
+                      <span className="text-orange-600 dark:text-orange-400 font-bold">
+                        {article.views}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-12">
+                <Eye className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <p className="text-gray-500 dark:text-gray-400">Belum ada data views</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Categories Overview */}
+      <div className="mt-8">
         <div className="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow duration-300">
           <div className="flex items-center space-x-3 mb-6">
             <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">

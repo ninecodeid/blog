@@ -3,6 +3,7 @@ import { Monitor, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import ThemeToggle from "./ThemeToggle";
+import SearchBar from "./SearchBar";
 
 export default function PublicHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,6 +47,9 @@ export default function PublicHeader() {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
+            <div className="w-64">
+              <SearchBar />
+            </div>
             <Link 
               to="/" 
               className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 font-medium relative group"
@@ -76,6 +80,9 @@ export default function PublicHeader() {
           isMenuOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <nav className="pt-4 pb-2 border-t border-gray-200 dark:border-gray-700 mt-4">
+            <div className="mb-4">
+              <SearchBar />
+            </div>
             <div className="flex flex-col space-y-3">
               <Link 
                 to="/" 
