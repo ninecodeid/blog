@@ -8,11 +8,11 @@ export const create = api<CreateArticleRequest, Article>(
   async (req) => {
     const article = await blogDB.rawQueryRow<Article>(
       `INSERT INTO articles 
-        (title, description, content, image_url, link, download_link, category, published, updated_at)
+        (title, description, content, image_url, link, download_link, category_id, published, updated_at)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
       RETURNING 
         id, title, description, content, image_url as "imageUrl", 
-        link, download_link as "downloadLink", category, published, 
+        link, download_link as "downloadLink", category_id as "categoryId", published, 
         created_at as "createdAt", updated_at as "updatedAt"`,
       req.title,
       req.description,
@@ -20,7 +20,7 @@ export const create = api<CreateArticleRequest, Article>(
       req.imageUrl || null,
       req.link || null,
       req.downloadLink || null,
-      req.category,
+      req.categoryId,
       req.published || false
     );
 

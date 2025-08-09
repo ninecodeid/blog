@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import backend from "~backend/client";
-import type { ArticleCategory, CreateArticleRequest, UpdateArticleRequest } from "~backend/blog/types";
+import ImageUpload from "../../components/ImageUpload";
+import type { CreateArticleRequest, UpdateArticleRequest } from "~backend/blog/types";
 
 export default function AdminArticleForm() {
   const { id } = useParams<{ id: string }>();
@@ -32,8 +33,20 @@ export default function AdminArticleForm() {
     imageUrl: "",
     link: "",
     downloadLink: "",
-    category: "Tips" as ArticleCategory,
+    categoryId: 0,
     published: false,
+  });
+
+  const { data: categoriesData } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      try {
+        return await backend.blog.listCategories();
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+        throw err;
+      }
+    },
   });
 
   const { data: article, isLoading } = useQuery({
@@ -59,11 +72,17 @@ export default function AdminArticleForm() {
         imageUrl: article.imageUrl || "",
         link: article.link || "",
         downloadLink: article.downloadLink || "",
-        category: article.category,
+        categoryId: article.categoryId,
         published: article.published,
       });
     }
   }, [article]);
+
+  useEffect(() => {
+    if (!isEdit && categoriesData?.categories && categoriesData.categories.length > 0 && formData.categoryId === 0) {
+      setFormData(prev => ({ ...prev, categoryId: categoriesData.categories[0].id }));
+    }
+  }, [categoriesData, isEdit, formData.categoryId]);
 
   const createMutation = useMutation({
     mutationFn: async (data: CreateArticleRequest) => {
@@ -133,6 +152,15 @@ export default function AdminArticleForm() {
       return;
     }
 
+    if (formData.categoryId === 0) {
+      toast({
+        title: "Error",
+        description: "Kategori harus dipilih",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (isEdit) {
       updateMutation.mutate({
         id: parseInt(id!),
@@ -151,38 +179,38 @@ export default function AdminArticleForm() {
     }
   };
 
-  const handleInputChange = (field: string, value: string | boolean) => {
+  const handleInputChange = (field: string, value: string | boolean | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   if (isEdit && isLoading) {
     return (
-      <div className="p-8">
+      <div className="p-4 lg:p-8">
         <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-400"></div>
-          <p className="text-gray-300 mt-4">Memuat artikel...</p>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <p className="text-gray-600 mt-4">Memuat artikel...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
+    <div className="p-4 lg:p-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
         <div className="flex items-center space-x-4">
           <Button
             variant="ghost"
             onClick={() => navigate("/admin/articles")}
-            className="text-gray-300 hover:text-emerald-400"
+            className="text-gray-600 hover:text-blue-600"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Kembali
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
               {isEdit ? "Edit Artikel" : "Tambah Artikel"}
             </h1>
-            <p className="text-gray-400">
+            <p className="text-gray-600">
               {isEdit ? "Perbarui artikel yang sudah ada" : "Buat artikel baru"}
             </p>
           </div>
@@ -190,31 +218,31 @@ export default function AdminArticleForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="max-w-4xl">
-        <div className="bg-slate-900 rounded-lg border border-slate-700 p-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="lg:col-span-2">
-              <Label htmlFor="title" className="text-gray-300">
+              <Label htmlFor="title" className="text-gray-700 font-medium">
                 Judul *
               </Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleInputChange("title", e.target.value)}
-                className="mt-1 bg-slate-800 border-slate-600 text-white"
+                className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 placeholder="Masukkan judul artikel"
                 required
               />
             </div>
 
             <div className="lg:col-span-2">
-              <Label htmlFor="description" className="text-gray-300">
+              <Label htmlFor="description" className="text-gray-700 font-medium">
                 Deskripsi Singkat *
               </Label>
               <Textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => handleInputChange("description", e.target.value)}
-                className="mt-1 bg-slate-800 border-slate-600 text-white"
+                className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 placeholder="Masukkan deskripsi singkat artikel"
                 rows={3}
                 required
@@ -222,75 +250,71 @@ export default function AdminArticleForm() {
             </div>
 
             <div>
-              <Label htmlFor="category" className="text-gray-300">
+              <Label htmlFor="category" className="text-gray-700 font-medium">
                 Kategori *
               </Label>
               <Select
-                value={formData.category}
-                onValueChange={(value: ArticleCategory) => handleInputChange("category", value)}
+                value={formData.categoryId.toString()}
+                onValueChange={(value) => handleInputChange("categoryId", parseInt(value))}
               >
-                <SelectTrigger className="mt-1 bg-slate-800 border-slate-600 text-white">
-                  <SelectValue />
+                <SelectTrigger className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                  <SelectValue placeholder="Pilih kategori" />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-600">
-                  <SelectItem value="Hardware" className="text-white">Hardware</SelectItem>
-                  <SelectItem value="Software" className="text-white">Software</SelectItem>
-                  <SelectItem value="Tips" className="text-white">Tips</SelectItem>
+                <SelectContent className="bg-white border-gray-200">
+                  {categoriesData?.categories?.map((category) => (
+                    <SelectItem key={category.id} value={category.id.toString()}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
 
-            <div>
-              <Label htmlFor="imageUrl" className="text-gray-300">
-                URL Gambar
-              </Label>
-              <Input
-                id="imageUrl"
+            <div className="lg:col-span-2">
+              <ImageUpload
                 value={formData.imageUrl}
-                onChange={(e) => handleInputChange("imageUrl", e.target.value)}
-                className="mt-1 bg-slate-800 border-slate-600 text-white"
-                placeholder="https://example.com/image.jpg"
-                type="url"
+                onChange={(url) => handleInputChange("imageUrl", url)}
+                onRemove={() => handleInputChange("imageUrl", "")}
               />
             </div>
 
             <div>
-              <Label htmlFor="link" className="text-gray-300">
+              <Label htmlFor="link" className="text-gray-700 font-medium">
                 Link Eksternal
               </Label>
               <Input
                 id="link"
                 value={formData.link}
                 onChange={(e) => handleInputChange("link", e.target.value)}
-                className="mt-1 bg-slate-800 border-slate-600 text-white"
+                className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 placeholder="https://example.com"
                 type="url"
               />
             </div>
 
             <div>
-              <Label htmlFor="downloadLink" className="text-gray-300">
+              <Label htmlFor="downloadLink" className="text-gray-700 font-medium">
                 Link Download
               </Label>
               <Input
                 id="downloadLink"
                 value={formData.downloadLink}
                 onChange={(e) => handleInputChange("downloadLink", e.target.value)}
-                className="mt-1 bg-slate-800 border-slate-600 text-white"
+                className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 placeholder="https://example.com/download"
                 type="url"
               />
             </div>
 
             <div className="lg:col-span-2">
-              <Label htmlFor="content" className="text-gray-300">
+              <Label htmlFor="content" className="text-gray-700 font-medium">
                 Konten Lengkap *
               </Label>
               <Textarea
                 id="content"
                 value={formData.content}
                 onChange={(e) => handleInputChange("content", e.target.value)}
-                className="mt-1 bg-slate-800 border-slate-600 text-white"
+                className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 placeholder="Masukkan konten lengkap artikel"
                 rows={12}
                 required
@@ -304,26 +328,26 @@ export default function AdminArticleForm() {
                   checked={formData.published}
                   onCheckedChange={(checked) => handleInputChange("published", checked)}
                 />
-                <Label htmlFor="published" className="text-gray-300">
+                <Label htmlFor="published" className="text-gray-700 font-medium">
                   Publikasikan artikel
                 </Label>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-end space-x-4 mt-8 pt-6 border-t border-slate-700">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-8 pt-6 border-t border-gray-200">
             <Button
               type="button"
               variant="outline"
               onClick={() => navigate("/admin/articles")}
-              className="border-slate-600 text-gray-300 hover:bg-slate-800"
+              className="border-gray-300 text-gray-600 hover:bg-gray-50 w-full sm:w-auto"
             >
               Batal
             </Button>
             <Button
               type="submit"
               disabled={createMutation.isPending || updateMutation.isPending}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white"
+              className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
             >
               {createMutation.isPending || updateMutation.isPending ? (
                 <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

@@ -3,7 +3,7 @@ import PublicHeader from "../PublicHeader";
 
 export default function PublicLayout() {
   return (
-    <div className="min-h-screen bg-slate-800">
+    <div className="min-h-screen bg-gray-50">
       <PublicHeader />
       <main className="min-h-screen">
         <Outlet />

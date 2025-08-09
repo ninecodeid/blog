@@ -9,6 +9,7 @@ import ArticlePage from "./pages/ArticlePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminArticles from "./pages/admin/AdminArticles";
 import AdminArticleForm from "./pages/admin/AdminArticleForm";
+import AdminCategories from "./pages/admin/AdminCategories";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,13 +22,13 @@ const queryClient = new QueryClient({
 
 function ErrorFallback({ error }: { error: Error }) {
   return (
-    <div className="min-h-screen bg-slate-800 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-4">Something went wrong</h2>
-        <p className="text-gray-300 mb-4">{error.message}</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Something went wrong</h2>
+        <p className="text-gray-600 mb-4">{error.message}</p>
         <button
           onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Reload page
         </button>
@@ -41,7 +42,7 @@ export default function App() {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <QueryClientProvider client={queryClient}>
         <Router>
-          <div className="min-h-screen bg-slate-800">
+          <div className="min-h-screen bg-gray-50">
             <Routes>
               <Route path="/" element={<PublicLayout />}>
                 <Route index element={<HomePage />} />
@@ -52,6 +53,7 @@ export default function App() {
                 <Route path="articles" element={<AdminArticles />} />
                 <Route path="articles/new" element={<AdminArticleForm />} />
                 <Route path="articles/:id/edit" element={<AdminArticleForm />} />
+                <Route path="categories" element={<AdminCategories />} />
               </Route>
             </Routes>
           </div>

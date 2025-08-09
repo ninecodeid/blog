@@ -1,4 +1,23 @@
-export type ArticleCategory = "Hardware" | "Software" | "Tips";
+export interface Category {
+  id: number;
+  name: string;
+  description?: string;
+  color: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreateCategoryRequest {
+  name: string;
+  description?: string;
+  color?: string;
+}
+
+export interface UpdateCategoryRequest {
+  name?: string;
+  description?: string;
+  color?: string;
+}
 
 export interface Article {
   id: number;
@@ -8,7 +27,8 @@ export interface Article {
   imageUrl?: string;
   link?: string;
   downloadLink?: string;
-  category: ArticleCategory;
+  categoryId: number;
+  category?: Category;
   published: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -21,7 +41,7 @@ export interface CreateArticleRequest {
   imageUrl?: string;
   link?: string;
   downloadLink?: string;
-  category: ArticleCategory;
+  categoryId: number;
   published?: boolean;
 }
 
@@ -32,12 +52,12 @@ export interface UpdateArticleRequest {
   imageUrl?: string;
   link?: string;
   downloadLink?: string;
-  category?: ArticleCategory;
+  categoryId?: number;
   published?: boolean;
 }
 
 export interface ListArticlesParams {
-  category?: ArticleCategory;
+  categoryId?: number;
   published?: boolean;
   limit?: number;
   offset?: number;
@@ -45,5 +65,10 @@ export interface ListArticlesParams {
 
 export interface ListArticlesResponse {
   articles: Article[];
+  total: number;
+}
+
+export interface ListCategoriesResponse {
+  categories: Category[];
   total: number;
 }

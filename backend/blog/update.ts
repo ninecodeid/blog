@@ -52,9 +52,9 @@ export const update = api<UpdateArticleParams & UpdateArticleBody, Article>(
       paramIndex++;
     }
 
-    if (params.category !== undefined) {
-      updates.push(`category = $${paramIndex}`);
-      values.push(params.category);
+    if (params.categoryId !== undefined) {
+      updates.push(`category_id = $${paramIndex}`);
+      values.push(params.categoryId);
       paramIndex++;
     }
 
@@ -77,7 +77,7 @@ export const update = api<UpdateArticleParams & UpdateArticleBody, Article>(
       WHERE id = $${paramIndex}
       RETURNING 
         id, title, description, content, image_url as "imageUrl", 
-        link, download_link as "downloadLink", category, published, 
+        link, download_link as "downloadLink", category_id as "categoryId", published, 
         created_at as "createdAt", updated_at as "updatedAt"
     `;
 

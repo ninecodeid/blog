@@ -1,34 +1,45 @@
 import { Button } from "@/components/ui/button";
-import type { ArticleCategory } from "~backend/blog/types";
+import type { Category } from "~backend/blog/types";
 
 interface CategoryFilterProps {
-  selectedCategory: ArticleCategory | "All";
-  onCategoryChange: (category: ArticleCategory | "All") => void;
+  categories: Category[];
+  selectedCategoryId: number | "All";
+  onCategoryChange: (categoryId: number | "All") => void;
 }
 
-const categories: Array<{ label: string; value: ArticleCategory | "All" }> = [
-  { label: "Semua", value: "All" },
-  { label: "Hardware", value: "Hardware" },
-  { label: "Software", value: "Software" },
-  { label: "Tips", value: "Tips" },
-];
-
-export default function CategoryFilter({ selectedCategory, onCategoryChange }: CategoryFilterProps) {
+export default function CategoryFilter({ categories, selectedCategoryId, onCategoryChange }: CategoryFilterProps) {
   return (
     <div className="flex flex-wrap gap-2 mb-8">
+      <Button
+        variant={selectedCategoryId === "All" ? "default" : "outline"}
+        size="sm"
+        onClick={() => onCategoryChange("All")}
+        className={
+          selectedCategoryId === "All"
+            ? "bg-blue-600 hover:bg-blue-700 text-white"
+            : "border-gray-300 text-gray-600 hover:border-blue-300 hover:text-blue-600"
+        }
+      >
+        Semua
+      </Button>
       {categories.map((category) => (
         <Button
-          key={category.value}
-          variant={selectedCategory === category.value ? "default" : "outline"}
+          key={category.id}
+          variant={selectedCategoryId === category.id ? "default" : "outline"}
           size="sm"
-          onClick={() => onCategoryChange(category.value)}
+          onClick={() => onCategoryChange(category.id)}
           className={
-            selectedCategory === category.value
-              ? "bg-emerald-500 hover:bg-emerald-600 text-white"
-              : "border-slate-600 text-gray-300 hover:border-emerald-500/50 hover:text-emerald-400"
+            selectedCategoryId === category.id
+              ? "text-white border-0"
+              : "border-gray-300 text-gray-600 hover:border-blue-300 hover:text-blue-600"
+          }
+          style={
+            selectedCategoryId === category.id
+              ? { backgroundColor: category.color }
+              : {}
           }
         >
-          {category.label}
+          {category.name}
         </Button>
       ))}
     </div>
