@@ -3,14 +3,28 @@ import { FileText, Eye, Calendar, TrendingUp } from "lucide-react";
 import backend from "~backend/client";
 
 export default function AdminDashboard() {
-  const { data: allArticles } = useQuery({
+  const { data: allArticles, isLoading: allLoading } = useQuery({
     queryKey: ["admin-articles-stats"],
-    queryFn: () => backend.blog.list({ limit: 1000 }),
+    queryFn: async () => {
+      try {
+        return await backend.blog.list({ limit: 1000 });
+      } catch (err) {
+        console.error("Failed to fetch all articles:", err);
+        throw err;
+      }
+    },
   });
 
-  const { data: publishedArticles } = useQuery({
+  const { data: publishedArticles, isLoading: publishedLoading } = useQuery({
     queryKey: ["admin-published-stats"],
-    queryFn: () => backend.blog.list({ published: true, limit: 1000 }),
+    queryFn: async () => {
+      try {
+        return await backend.blog.list({ published: true, limit: 1000 });
+      } catch (err) {
+        console.error("Failed to fetch published articles:", err);
+        throw err;
+      }
+    },
   });
 
   const stats = [
@@ -37,7 +51,7 @@ export default function AdminDashboard() {
     },
     {
       title: "Artikel Bulan Ini",
-      value: allArticles?.articles.filter(article => {
+      value: allArticles?.articles?.filter(article => {
         const articleDate = new Date(article.createdAt);
         const now = new Date();
         return articleDate.getMonth() === now.getMonth() && 
@@ -48,6 +62,17 @@ export default function AdminDashboard() {
       bgColor: "bg-purple-500/20",
     },
   ];
+
+  if (allLoading || publishedLoading) {
+    return (
+      <div className="p-8">
+        <div className="text-center py-12">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-400"></div>
+          <p className="text-gray-300 mt-4">Memuat dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">
@@ -88,32 +113,36 @@ export default function AdminDashboard() {
             Artikel Terbaru
           </h3>
           <div className="space-y-3">
-            {allArticles?.articles.slice(0, 5).map((article) => (
-              <div
-                key={article.id}
-                className="flex items-center justify-between p-3 bg-slate-800 rounded-lg"
-              >
-                <div>
-                  <p className="text-white font-medium truncate">
-                    {article.title}
-                  </p>
-                  <p className="text-gray-400 text-sm">
-                    {new Date(article.createdAt).toLocaleDateString("id-ID")}
-                  </p>
+            {allArticles?.articles && allArticles.articles.length > 0 ? (
+              allArticles.articles.slice(0, 5).map((article) => (
+                <div
+                  key={article.id}
+                  className="flex items-center justify-between p-3 bg-slate-800 rounded-lg"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-medium truncate">
+                      {article.title}
+                    </p>
+                    <p className="text-gray-400 text-sm">
+                      {new Date(article.createdAt).toLocaleDateString("id-ID")}
+                    </p>
+                  </div>
+                  <div className="flex items-center ml-4">
+                    {article.published ? (
+                      <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-xs rounded">
+                        Published
+                      </span>
+                    ) : (
+                      <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded">
+                        Draft
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  {article.published ? (
-                    <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-xs rounded">
-                      Published
-                    </span>
-                  ) : (
-                    <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded">
-                      Draft
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-400">Belum ada artikel</p>
+            )}
           </div>
         </div>
 
@@ -123,7 +152,7 @@ export default function AdminDashboard() {
           </h3>
           <div className="space-y-3">
             {["Hardware", "Software", "Tips"].map((category) => {
-              const count = allArticles?.articles.filter(
+              const count = allArticles?.articles?.filter(
                 (article) => article.category === category
               ).length || 0;
               

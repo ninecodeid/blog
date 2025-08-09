@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Save, Eye } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -38,7 +38,15 @@ export default function AdminArticleForm() {
 
   const { data: article, isLoading } = useQuery({
     queryKey: ["article", id],
-    queryFn: () => backend.blog.get({ id: parseInt(id!) }),
+    queryFn: async () => {
+      if (!id) return null;
+      try {
+        return await backend.blog.get({ id: parseInt(id) });
+      } catch (err) {
+        console.error("Failed to fetch article:", err);
+        throw err;
+      }
+    },
     enabled: isEdit,
   });
 
@@ -58,7 +66,14 @@ export default function AdminArticleForm() {
   }, [article]);
 
   const createMutation = useMutation({
-    mutationFn: (data: CreateArticleRequest) => backend.blog.create(data),
+    mutationFn: async (data: CreateArticleRequest) => {
+      try {
+        return await backend.blog.create(data);
+      } catch (err) {
+        console.error("Create error:", err);
+        throw err;
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-articles"] });
       toast({
@@ -78,9 +93,14 @@ export default function AdminArticleForm() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: UpdateArticleRequest & { id: number }) => {
+    mutationFn: async (data: UpdateArticleRequest & { id: number }) => {
       const { id, ...updateData } = data;
-      return backend.blog.update({ id, ...updateData });
+      try {
+        return await backend.blog.update({ id, ...updateData });
+      } catch (err) {
+        console.error("Update error:", err);
+        throw err;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-articles"] });

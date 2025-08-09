@@ -5,7 +5,7 @@ export default function PublicLayout() {
   return (
     <div className="min-h-screen bg-slate-800">
       <PublicHeader />
-      <main>
+      <main className="min-h-screen">
         <Outlet />
       </main>
     </div>

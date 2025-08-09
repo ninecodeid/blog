@@ -12,12 +12,21 @@ export default function HomePage() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["articles", selectedCategory],
     queryFn: async () => {
-      const params = {
-        published: true,
-        ...(selectedCategory !== "All" && { category: selectedCategory }),
-        limit: 20,
-      };
-      return backend.blog.list(params);
+      try {
+        const params: any = {
+          published: true,
+          limit: 20,
+        };
+        
+        if (selectedCategory !== "All") {
+          params.category = selectedCategory;
+        }
+        
+        return await backend.blog.list(params);
+      } catch (err) {
+        console.error("Failed to fetch articles:", err);
+        throw err;
+      }
     },
   });
 
@@ -94,10 +103,13 @@ export default function HomePage() {
           {error && (
             <div className="text-center py-12">
               <p className="text-red-400">Gagal memuat artikel. Silakan coba lagi.</p>
+              <p className="text-gray-400 text-sm mt-2">
+                {error instanceof Error ? error.message : "Unknown error"}
+              </p>
             </div>
           )}
 
-          {data && (
+          {data && data.articles && data.articles.length > 0 && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {data.articles.map((article) => (
                 <ArticleCard key={article.id} article={article} />
@@ -105,7 +117,7 @@ export default function HomePage() {
             </div>
           )}
 
-          {data && data.articles.length === 0 && (
+          {data && data.articles && data.articles.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-300">
                 Tidak ada artikel untuk kategori {selectedCategory === "All" ? "ini" : selectedCategory}.

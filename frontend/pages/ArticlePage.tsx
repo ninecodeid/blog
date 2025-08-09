@@ -12,7 +12,12 @@ export default function ArticlePage() {
     queryKey: ["article", id],
     queryFn: async () => {
       if (!id) throw new Error("Article ID is required");
-      return backend.blog.get({ id: parseInt(id) });
+      try {
+        return await backend.blog.get({ id: parseInt(id) });
+      } catch (err) {
+        console.error("Failed to fetch article:", err);
+        throw err;
+      }
     },
     enabled: !!id,
   });
@@ -54,6 +59,11 @@ export default function ArticlePage() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">
           <p className="text-red-400">Artikel tidak ditemukan.</p>
+          {error && (
+            <p className="text-gray-400 text-sm mt-2">
+              {error instanceof Error ? error.message : "Unknown error"}
+            </p>
+          )}
           <Link to="/">
             <Button variant="outline" className="mt-4 border-emerald-500/50 text-emerald-400">
               Kembali ke Beranda
