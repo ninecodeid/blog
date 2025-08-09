@@ -1,0 +1,1 @@
+{"id": "teknisi-komputer-blog-z8hi", "lang": "typescript"}
