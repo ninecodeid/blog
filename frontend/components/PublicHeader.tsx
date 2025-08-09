@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Monitor } from "lucide-react";
+import { Monitor, Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function PublicHeader() {
   return (
@@ -10,12 +11,19 @@ export default function PublicHeader() {
             <Monitor className="h-8 w-8 text-emerald-400" />
             <span className="text-xl font-bold text-white">TeknisPro</span>
           </Link>
-          <nav className="hidden md:flex space-x-6">
+          <nav className="flex items-center space-x-6">
             <Link to="/" className="text-gray-300 hover:text-emerald-400 transition-colors">
               Home
             </Link>
-            <Link to="/admin" className="text-gray-300 hover:text-emerald-400 transition-colors">
-              Admin
+            <Link to="/admin">
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10"
+              >
+                <Settings className="h-4 w-4 mr-2" />
+                Admin Panel
+              </Button>
             </Link>
           </nav>
         </div>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Cpu, Wrench, Lightbulb } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Cpu, Wrench, Lightbulb, Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import backend from "~backend/client";
 import ArticleCard from "../components/ArticleCard";
 import CategoryFilter from "../components/CategoryFilter";
@@ -61,6 +63,20 @@ export default function HomePage() {
             Dapatkan panduan lengkap, tips praktis, dan solusi terbaik untuk semua kebutuhan teknologi komputer Anda. 
             Dari hardware hingga software, kami siap membantu.
           </p>
+          
+          {/* Admin Access Button */}
+          <div className="mb-12">
+            <Link to="/admin">
+              <Button 
+                size="lg"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white"
+              >
+                <Settings className="h-5 w-5 mr-2" />
+                Akses Admin Panel
+              </Button>
+            </Link>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8 mt-16">
             {features.map((feature, index) => {
               const Icon = feature.icon;

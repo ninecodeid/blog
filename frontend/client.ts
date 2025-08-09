@@ -34,6 +34,7 @@ const BROWSER = typeof globalThis === "object" && ("window" in globalThis);
  */
 export class Client {
     public readonly blog: blog.ServiceClient
+    public readonly storage: storage.ServiceClient
     private readonly options: ClientOptions
     private readonly target: string
 
@@ -49,6 +50,7 @@ export class Client {
         this.options = options ?? {}
         const base = new BaseClient(this.target, this.options)
         this.blog = new blog.ServiceClient(base)
+        this.storage = new storage.ServiceClient(base)
     }
 
     /**
@@ -87,6 +89,10 @@ import { deleteArticle as api_blog_delete_deleteArticle } from "~backend/blog/de
 import { get as api_blog_get_get } from "~backend/blog/get";
 import { list as api_blog_list_list } from "~backend/blog/list";
 import { update as api_blog_update_update } from "~backend/blog/update";
+import { createCategory as api_blog_create_createCategory } from "~backend/categories/create";
+import { deleteCategory as api_blog_delete_deleteCategory } from "~backend/categories/delete";
+import { listCategories as api_blog_list_listCategories } from "~backend/categories/list";
+import { updateCategory as api_blog_update_updateCategory } from "~backend/categories/update";
 
 export namespace blog {
 
@@ -96,10 +102,14 @@ export namespace blog {
         constructor(baseClient: BaseClient) {
             this.baseClient = baseClient
             this.create = this.create.bind(this)
+            this.createCategory = this.createCategory.bind(this)
             this.deleteArticle = this.deleteArticle.bind(this)
+            this.deleteCategory = this.deleteCategory.bind(this)
             this.get = this.get.bind(this)
             this.list = this.list.bind(this)
+            this.listCategories = this.listCategories.bind(this)
             this.update = this.update.bind(this)
+            this.updateCategory = this.updateCategory.bind(this)
         }
 
         /**
@@ -112,10 +122,26 @@ export namespace blog {
         }
 
         /**
+         * Creates a new category.
+         */
+        public async createCategory(params: RequestType<typeof api_blog_create_createCategory>): Promise<ResponseType<typeof api_blog_create_createCategory>> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI(`/categories`, {method: "POST", body: JSON.stringify(params)})
+            return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_blog_create_createCategory>
+        }
+
+        /**
          * Deletes an article.
          */
         public async deleteArticle(params: { id: number }): Promise<void> {
             await this.baseClient.callTypedAPI(`/articles/${encodeURIComponent(params.id)}`, {method: "DELETE", body: undefined})
+        }
+
+        /**
+         * Deletes a category.
+         */
+        public async deleteCategory(params: { id: number }): Promise<void> {
+            await this.baseClient.callTypedAPI(`/categories/${encodeURIComponent(params.id)}`, {method: "DELETE", body: undefined})
         }
 
         /**
@@ -133,10 +159,10 @@ export namespace blog {
         public async list(params: RequestType<typeof api_blog_list_list>): Promise<ResponseType<typeof api_blog_list_list>> {
             // Convert our params into the objects we need for the request
             const query = makeRecord<string, string | string[]>({
-                category:  params.category === undefined ? undefined : String(params.category),
-                limit:     params.limit === undefined ? undefined : String(params.limit),
-                offset:    params.offset === undefined ? undefined : String(params.offset),
-                published: params.published === undefined ? undefined : String(params.published),
+                categoryId: params.categoryId === undefined ? undefined : String(params.categoryId),
+                limit:      params.limit === undefined ? undefined : String(params.limit),
+                offset:     params.offset === undefined ? undefined : String(params.offset),
+                published:  params.published === undefined ? undefined : String(params.published),
             })
 
             // Now make the actual call to the API
@@ -145,12 +171,21 @@ export namespace blog {
         }
 
         /**
+         * Retrieves all categories.
+         */
+        public async listCategories(): Promise<ResponseType<typeof api_blog_list_listCategories>> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI(`/categories`, {method: "GET", body: undefined})
+            return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_blog_list_listCategories>
+        }
+
+        /**
          * Updates an existing article.
          */
         public async update(params: RequestType<typeof api_blog_update_update>): Promise<ResponseType<typeof api_blog_update_update>> {
             // Construct the body with only the fields which we want encoded within the body (excluding query string or header fields)
             const body: Record<string, any> = {
-                category:     params.category,
+                categoryId:   params.categoryId,
                 content:      params.content,
                 description:  params.description,
                 downloadLink: params.downloadLink,
@@ -163,6 +198,48 @@ export namespace blog {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI(`/articles/${encodeURIComponent(params.id)}`, {method: "PUT", body: JSON.stringify(body)})
             return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_blog_update_update>
+        }
+
+        /**
+         * Updates an existing category.
+         */
+        public async updateCategory(params: RequestType<typeof api_blog_update_updateCategory>): Promise<ResponseType<typeof api_blog_update_updateCategory>> {
+            // Construct the body with only the fields which we want encoded within the body (excluding query string or header fields)
+            const body: Record<string, any> = {
+                color:       params.color,
+                description: params.description,
+                name:        params.name,
+            }
+
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI(`/categories/${encodeURIComponent(params.id)}`, {method: "PUT", body: JSON.stringify(body)})
+            return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_blog_update_updateCategory>
+        }
+    }
+}
+
+/**
+ * Import the endpoint handlers to derive the types for the client.
+ */
+import { uploadImage as api_storage_upload_uploadImage } from "~backend/storage/upload";
+
+export namespace storage {
+
+    export class ServiceClient {
+        private baseClient: BaseClient
+
+        constructor(baseClient: BaseClient) {
+            this.baseClient = baseClient
+            this.uploadImage = this.uploadImage.bind(this)
+        }
+
+        /**
+         * Uploads an image and returns the public URL.
+         */
+        public async uploadImage(params: RequestType<typeof api_storage_upload_uploadImage>): Promise<ResponseType<typeof api_storage_upload_uploadImage>> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI(`/upload/image`, {method: "POST", body: JSON.stringify(params)})
+            return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_storage_upload_uploadImage>
         }
     }
 }
