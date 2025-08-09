@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Monitor, Lock, User } from "lucide-react";
+import { Monitor, Lock, User, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,15 +26,15 @@ export default function LoginPage() {
     try {
       await login(username, password);
       toast({
-        title: "Success",
-        description: "Welcome to EndieTech Admin",
+        title: "Berhasil",
+        description: "Selamat datang di EndieTech Admin",
       });
       navigate("/admin");
     } catch (error) {
       console.error("Login error:", error);
       toast({
         title: "Error",
-        description: "Invalid username or password",
+        description: "Username atau password salah",
         variant: "destructive",
       });
     } finally {
@@ -43,63 +43,70 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 dark:bg-blue-900/30 rounded-full blur-3xl opacity-70"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 dark:bg-purple-900/30 rounded-full blur-3xl opacity-70"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl opacity-50"></div>
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 dark:border-gray-700/50 p-8 lg:p-10">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Monitor className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center space-x-3 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Monitor className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   EndieTech
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Admin Panel
+                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                  Panel Admin
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-              <Lock className="w-4 h-4" />
-              <span>Secure Login</span>
+            <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 rounded-lg px-4 py-2">
+              <Shield className="w-4 h-4" />
+              <span>Login Aman</span>
             </div>
           </div>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <Label htmlFor="username" className="text-gray-700 dark:text-gray-300 font-medium">
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-gray-700 dark:text-gray-300 font-semibold">
                 Username
               </Label>
-              <div className="relative mt-1">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
                   id="username"
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="pl-10 border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Enter your username"
+                  className="pl-12 h-12 border-gray-200 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl backdrop-blur-sm transition-all duration-200 hover:bg-white/70 dark:hover:bg-gray-700/70"
+                  placeholder="Masukkan username Anda"
                   required
                 />
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="password" className="text-gray-700 dark:text-gray-300 font-medium">
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-gray-700 dark:text-gray-300 font-semibold">
                 Password
               </Label>
-              <div className="relative mt-1">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Enter your password"
+                  className="pl-12 h-12 border-gray-200 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white rounded-xl backdrop-blur-sm transition-all duration-200 hover:bg-white/70 dark:hover:bg-gray-700/70"
+                  placeholder="Masukkan password Anda"
                   required
                 />
               </div>
@@ -108,35 +115,24 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-medium rounded-lg transition-colors duration-200"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border-0"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center space-x-2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  <span>Signing in...</span>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <span>Masuk...</span>
                 </div>
               ) : (
-                "Sign In"
+                "Masuk"
               )}
             </Button>
           </form>
-
-          {/* Demo Credentials */}
-          <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
-            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Demo Credentials:
-            </h3>
-            <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-              <p><strong>Username:</strong> endie</p>
-              <p><strong>Password:</strong> endie</p>
-            </div>
-          </div>
         </div>
 
         {/* Footer */}
         <div className="text-center mt-8">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            © 2025 EndieTech. All rights reserved.
+            © 2025 EndieTech. Semua hak dilindungi.
           </p>
         </div>
       </div>

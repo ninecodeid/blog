@@ -216,10 +216,10 @@ export default function AdminCategories() {
 
   if (isLoading) {
     return (
-      <div className="p-4 lg:p-8">
-        <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <p className="text-gray-600 mt-4">Memuat kategori...</p>
+      <div className="p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <div className="text-center py-20">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+          <p className="text-gray-600 dark:text-gray-300 mt-6 text-lg">Memuat kategori...</p>
         </div>
       </div>
     );
@@ -227,11 +227,11 @@ export default function AdminCategories() {
 
   if (error) {
     return (
-      <div className="p-4 lg:p-8">
-        <div className="text-center py-12">
-          <p className="text-red-600">Gagal memuat kategori. Silakan coba lagi.</p>
-          <p className="text-gray-500 text-sm mt-2">
-            {error instanceof Error ? error.message : "Unknown error"}
+      <div className="p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <div className="text-center py-20">
+          <p className="text-red-600 dark:text-red-400">Gagal memuat kategori. Silakan coba lagi.</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
+            {error instanceof Error ? error.message : "Kesalahan tidak diketahui"}
           </p>
         </div>
       </div>
@@ -239,121 +239,134 @@ export default function AdminCategories() {
   }
 
   return (
-    <div className="p-4 lg:p-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-4">
-        <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Kategori</h1>
-          <p className="text-gray-600">Kelola kategori artikel blog</p>
+    <div className="p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex items-center space-x-4 mb-6">
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
+            <Tag className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
+              Kelola Kategori
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300">
+              Kelola kategori artikel blog teknologi
+            </p>
+          </div>
         </div>
-        <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={handleCreate} className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto">
-              <Plus className="h-4 w-4 mr-2" />
-              Tambah Kategori
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-white border-gray-200 mx-4 max-w-md">
-            <DialogHeader>
-              <DialogTitle className="text-gray-900">Tambah Kategori Baru</DialogTitle>
-              <DialogDescription className="text-gray-600">
-                Buat kategori baru untuk mengorganisir artikel
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmit}>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="name" className="text-gray-700 font-medium">
-                    Nama Kategori *
-                  </Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Masukkan nama kategori"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="description" className="text-gray-700 font-medium">
-                    Deskripsi
-                  </Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Masukkan deskripsi kategori"
-                    rows={3}
-                  />
-                </div>
-                <div>
-                  <Label className="text-gray-700 font-medium">Warna</Label>
-                  <div className="grid grid-cols-4 gap-2 mt-2">
-                    {colorOptions.map((color) => (
-                      <button
-                        key={color.value}
-                        type="button"
-                        onClick={() => setFormData(prev => ({ ...prev, color: color.value }))}
-                        className={`w-full h-8 sm:h-10 rounded-lg border-2 transition-all ${
-                          formData.color === color.value
-                            ? "border-gray-900 scale-105"
-                            : "border-gray-300 hover:border-gray-400"
-                        }`}
-                        style={{ backgroundColor: color.value }}
-                        title={color.name}
-                      />
-                    ))}
+        
+        <div className="flex justify-end">
+          <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
+            <DialogTrigger asChild>
+              <Button onClick={handleCreate} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl border-0">
+                <Plus className="h-4 w-4 mr-2" />
+                Tambah Kategori
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 mx-4 max-w-md rounded-xl">
+              <DialogHeader>
+                <DialogTitle className="text-gray-900 dark:text-white">Tambah Kategori Baru</DialogTitle>
+                <DialogDescription className="text-gray-600 dark:text-gray-300">
+                  Buat kategori baru untuk mengorganisir artikel
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmit}>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="name" className="text-gray-700 dark:text-gray-300 font-medium">
+                      Nama Kategori *
+                    </Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      className="mt-1 border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                      placeholder="Masukkan nama kategori"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="description" className="text-gray-700 dark:text-gray-300 font-medium">
+                      Deskripsi
+                    </Label>
+                    <Textarea
+                      id="description"
+                      value={formData.description}
+                      onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                      className="mt-1 border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                      placeholder="Masukkan deskripsi kategori"
+                      rows={3}
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-gray-700 dark:text-gray-300 font-medium">Warna</Label>
+                    <div className="grid grid-cols-4 gap-2 mt-2">
+                      {colorOptions.map((color) => (
+                        <button
+                          key={color.value}
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, color: color.value }))}
+                          className={`w-full h-10 rounded-lg border-2 transition-all ${
+                            formData.color === color.value
+                              ? "border-gray-900 dark:border-white scale-105"
+                              : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
+                          }`}
+                          style={{ backgroundColor: color.value }}
+                          title={color.name}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <DialogFooter className="mt-6 flex-col sm:flex-row gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsCreateOpen(false)}
-                  className="border-gray-300 text-gray-600 hover:bg-gray-50 w-full sm:w-auto"
-                >
-                  Batal
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={createMutation.isPending}
-                  className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
-                >
-                  {createMutation.isPending ? (
-                    <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  ) : (
-                    <Tag className="h-4 w-4 mr-2" />
-                  )}
-                  Simpan Kategori
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+                <DialogFooter className="mt-6 flex-col sm:flex-row gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsCreateOpen(false)}
+                    className="border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 w-full sm:w-auto rounded-lg"
+                  >
+                    Batal
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={createMutation.isPending}
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white w-full sm:w-auto rounded-lg border-0"
+                  >
+                    {createMutation.isPending ? (
+                      <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    ) : (
+                      <Tag className="h-4 w-4 mr-2" />
+                    )}
+                    Simpan Kategori
+                  </Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
         {data?.categories && data.categories.length > 0 ? (
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="border-gray-200">
-                  <TableHead className="text-gray-700 font-semibold">Nama</TableHead>
-                  <TableHead className="text-gray-700 font-semibold hidden sm:table-cell">Deskripsi</TableHead>
-                  <TableHead className="text-gray-700 font-semibold">Warna</TableHead>
-                  <TableHead className="text-gray-700 font-semibold hidden md:table-cell">Tanggal Dibuat</TableHead>
-                  <TableHead className="text-gray-700 font-semibold text-right">Aksi</TableHead>
+                <TableRow className="border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
+                  <TableHead className="text-gray-700 dark:text-gray-300 font-semibold">Nama</TableHead>
+                  <TableHead className="text-gray-700 dark:text-gray-300 font-semibold hidden sm:table-cell">Deskripsi</TableHead>
+                  <TableHead className="text-gray-700 dark:text-gray-300 font-semibold">Warna</TableHead>
+                  <TableHead className="text-gray-700 dark:text-gray-300 font-semibold hidden md:table-cell">Tanggal Dibuat</TableHead>
+                  <TableHead className="text-gray-700 dark:text-gray-300 font-semibold text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {data.categories.map((category) => (
-                  <TableRow key={category.id} className="border-gray-200">
-                    <TableCell className="text-gray-900 font-medium">
+                  <TableRow key={category.id} className="border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors duration-200">
+                    <TableCell className="text-gray-900 dark:text-white font-medium">
                       {category.name}
                     </TableCell>
-                    <TableCell className="text-gray-600 hidden sm:table-cell">
+                    <TableCell className="text-gray-600 dark:text-gray-300 hidden sm:table-cell">
                       {category.description || "-"}
                     </TableCell>
                     <TableCell>
@@ -370,7 +383,7 @@ export default function AdminCategories() {
                         </Badge>
                       </div>
                     </TableCell>
-                    <TableCell className="text-gray-600 hidden md:table-cell text-sm">
+                    <TableCell className="text-gray-600 dark:text-gray-300 hidden md:table-cell text-sm">
                       {formatDate(category.createdAt)}
                     </TableCell>
                     <TableCell className="text-right">
@@ -381,58 +394,58 @@ export default function AdminCategories() {
                               variant="ghost"
                               size="sm"
                               onClick={() => handleEdit(category)}
-                              className="text-gray-500 hover:text-blue-600 p-1 sm:p-2"
+                              className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30"
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="bg-white border-gray-200 mx-4 max-w-md">
+                          <DialogContent className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 mx-4 max-w-md rounded-xl">
                             <DialogHeader>
-                              <DialogTitle className="text-gray-900">Edit Kategori</DialogTitle>
-                              <DialogDescription className="text-gray-600">
+                              <DialogTitle className="text-gray-900 dark:text-white">Edit Kategori</DialogTitle>
+                              <DialogDescription className="text-gray-600 dark:text-gray-300">
                                 Perbarui informasi kategori
                               </DialogDescription>
                             </DialogHeader>
                             <form onSubmit={handleSubmit}>
                               <div className="space-y-4">
                                 <div>
-                                  <Label htmlFor="edit-name" className="text-gray-700 font-medium">
+                                  <Label htmlFor="edit-name" className="text-gray-700 dark:text-gray-300 font-medium">
                                     Nama Kategori *
                                   </Label>
                                   <Input
                                     id="edit-name"
                                     value={formData.name}
                                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                                    className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                                    className="mt-1 border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
                                     placeholder="Masukkan nama kategori"
                                     required
                                   />
                                 </div>
                                 <div>
-                                  <Label htmlFor="edit-description" className="text-gray-700 font-medium">
+                                  <Label htmlFor="edit-description" className="text-gray-700 dark:text-gray-300 font-medium">
                                     Deskripsi
                                   </Label>
                                   <Textarea
                                     id="edit-description"
                                     value={formData.description}
                                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                                    className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                                    className="mt-1 border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
                                     placeholder="Masukkan deskripsi kategori"
                                     rows={3}
                                   />
                                 </div>
                                 <div>
-                                  <Label className="text-gray-700 font-medium">Warna</Label>
+                                  <Label className="text-gray-700 dark:text-gray-300 font-medium">Warna</Label>
                                   <div className="grid grid-cols-4 gap-2 mt-2">
                                     {colorOptions.map((color) => (
                                       <button
                                         key={color.value}
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, color: color.value }))}
-                                        className={`w-full h-8 sm:h-10 rounded-lg border-2 transition-all ${
+                                        className={`w-full h-10 rounded-lg border-2 transition-all ${
                                           formData.color === color.value
-                                            ? "border-gray-900 scale-105"
-                                            : "border-gray-300 hover:border-gray-400"
+                                            ? "border-gray-900 dark:border-white scale-105"
+                                            : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
                                         }`}
                                         style={{ backgroundColor: color.value }}
                                         title={color.name}
@@ -446,14 +459,14 @@ export default function AdminCategories() {
                                   type="button"
                                   variant="outline"
                                   onClick={() => setEditingCategory(null)}
-                                  className="border-gray-300 text-gray-600 hover:bg-gray-50 w-full sm:w-auto"
+                                  className="border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 w-full sm:w-auto rounded-lg"
                                 >
                                   Batal
                                 </Button>
                                 <Button
                                   type="submit"
                                   disabled={updateMutation.isPending}
-                                  className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
+                                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white w-full sm:w-auto rounded-lg border-0"
                                 >
                                   {updateMutation.isPending ? (
                                     <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -471,28 +484,28 @@ export default function AdminCategories() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="text-gray-500 hover:text-red-600 p-1 sm:p-2"
+                              className="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </AlertDialogTrigger>
-                          <AlertDialogContent className="bg-white border-gray-200 mx-4">
+                          <AlertDialogContent className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 mx-4 rounded-xl">
                             <AlertDialogHeader>
-                              <AlertDialogTitle className="text-gray-900">
+                              <AlertDialogTitle className="text-gray-900 dark:text-white">
                                 Hapus Kategori
                               </AlertDialogTitle>
-                              <AlertDialogDescription className="text-gray-600">
+                              <AlertDialogDescription className="text-gray-600 dark:text-gray-300">
                                 Apakah Anda yakin ingin menghapus kategori "{category.name}"? 
                                 Kategori yang memiliki artikel tidak dapat dihapus.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-                              <AlertDialogCancel className="border-gray-300 text-gray-600 hover:bg-gray-50 w-full sm:w-auto">
+                              <AlertDialogCancel className="border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 w-full sm:w-auto rounded-lg">
                                 Batal
                               </AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deleteMutation.mutate(category.id)}
-                                className="bg-red-600 hover:bg-red-700 text-white w-full sm:w-auto"
+                                className="bg-red-600 hover:bg-red-700 text-white w-full sm:w-auto rounded-lg"
                                 disabled={deleteMutation.isPending}
                               >
                                 Hapus
@@ -508,11 +521,15 @@ export default function AdminCategories() {
             </Table>
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-600 mb-4">Belum ada kategori.</p>
+          <div className="text-center py-20">
+            <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Tag className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Belum ada kategori</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">Mulai dengan membuat kategori pertama Anda.</p>
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
-                <Button onClick={handleCreate} className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Button onClick={handleCreate} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl border-0">
                   <Plus className="h-4 w-4 mr-2" />
                   Tambah Kategori Pertama
                 </Button>

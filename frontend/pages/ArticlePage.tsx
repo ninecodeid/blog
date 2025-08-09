@@ -11,7 +11,7 @@ export default function ArticlePage() {
   const { data: article, isLoading, error } = useQuery({
     queryKey: ["article", id],
     queryFn: async () => {
-      if (!id) throw new Error("Article ID is required");
+      if (!id) throw new Error("ID artikel diperlukan");
       try {
         return await backend.blog.get({ id: parseInt(id) });
       } catch (err) {
@@ -59,7 +59,7 @@ export default function ArticlePage() {
         <div className="container mx-auto px-4 py-8">
           <div className="text-center py-20">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
-            <p className="text-gray-600 dark:text-gray-300 mt-6 text-lg">Loading article...</p>
+            <p className="text-gray-600 dark:text-gray-300 mt-6 text-lg">Memuat artikel...</p>
           </div>
         </div>
       </div>
@@ -76,17 +76,17 @@ export default function ArticlePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Article Not Found</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">The article you're looking for doesn't exist or has been removed.</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Artikel Tidak Ditemukan</h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">Artikel yang Anda cari tidak ada atau telah dihapus.</p>
             {error && (
               <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
-                {error instanceof Error ? error.message : "Unknown error"}
+                {error instanceof Error ? error.message : "Kesalahan tidak diketahui"}
               </p>
             )}
             <Link to="/">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Home
+                Kembali ke Beranda
               </Button>
             </Link>
           </div>
@@ -104,7 +104,7 @@ export default function ArticlePage() {
             <Link to="/">
               <Button variant="ghost" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 hover:scale-105">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Home
+                Kembali ke Beranda
               </Button>
             </Link>
             
@@ -114,7 +114,7 @@ export default function ArticlePage() {
               className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 hover:scale-105"
             >
               <Share2 className="h-4 w-4 mr-2" />
-              Share
+              Bagikan
             </Button>
           </div>
 
@@ -160,11 +160,11 @@ export default function ArticlePage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Clock className="h-5 w-5" />
-                  <span className="text-lg">{estimateReadTime(article.content)} min read</span>
+                  <span className="text-lg">{estimateReadTime(article.content)} menit baca</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <BookOpen className="h-5 w-5" />
-                  <span className="text-lg">Article</span>
+                  <span className="text-lg">Artikel</span>
                 </div>
               </div>
 
@@ -189,7 +189,7 @@ export default function ArticlePage() {
               {(article.link || article.downloadLink) && (
                 <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                    Related Links
+                    Tautan Terkait
                   </h3>
                   <div className="flex flex-col sm:flex-row gap-4">
                     {article.link && (
@@ -203,7 +203,7 @@ export default function ArticlePage() {
                           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-lg rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
                         >
                           <ExternalLink className="h-5 w-5 mr-3" />
-                          External Link
+                          Tautan Eksternal
                         </Button>
                       </a>
                     )}
@@ -218,7 +218,7 @@ export default function ArticlePage() {
                           className="w-full bg-green-600 hover:bg-green-700 text-white py-4 text-lg rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
                         >
                           <Download className="h-5 w-5 mr-3" />
-                          Download
+                          Unduh
                         </Button>
                       </a>
                     )}
@@ -235,7 +235,7 @@ export default function ArticlePage() {
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl border-0"
               >
-                Explore More Articles
+                Jelajahi Artikel Lainnya
               </Button>
             </Link>
           </div>

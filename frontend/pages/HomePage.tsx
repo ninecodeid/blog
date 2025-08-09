@@ -52,22 +52,22 @@ export default function HomePage() {
   const features = [
     {
       icon: Code,
-      title: "Software Solutions",
-      description: "Complete guides for modern software development and applications",
+      title: "Solusi Software",
+      description: "Panduan lengkap untuk pengembangan software modern dan aplikasi terkini",
       color: "text-blue-600 dark:text-blue-400",
       bgColor: "bg-blue-50 dark:bg-blue-900/20"
     },
     {
       icon: Cpu,
-      title: "Hardware Insights",
-      description: "Reviews and tips about the latest computer hardware",
+      title: "Wawasan Hardware",
+      description: "Review dan tips tentang perangkat keras komputer terbaru",
       color: "text-purple-600 dark:text-purple-400",
       bgColor: "bg-purple-50 dark:bg-purple-900/20"
     },
     {
       icon: Lightbulb,
-      title: "Tech Tips",
-      description: "Practical tips and tricks to maximize your technology",
+      title: "Tips Teknologi",
+      description: "Tips dan trik praktis untuk memaksimalkan teknologi Anda",
       color: "text-orange-600 dark:text-orange-400",
       bgColor: "bg-orange-50 dark:bg-orange-900/20"
     }
@@ -87,7 +87,7 @@ export default function HomePage() {
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="inline-flex items-center space-x-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full text-sm font-medium mb-6 border border-blue-200 dark:border-blue-700">
               <Sparkles className="w-4 h-4" />
-              <span>Welcome to the Future of Technology</span>
+              <span>Selamat Datang di Masa Depan Teknologi</span>
             </div>
             
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
@@ -96,13 +96,13 @@ export default function HomePage() {
               </span>
               <br />
               <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-gray-700 dark:text-gray-300">
-                Solutions
+                Solusi
               </span>
             </h1>
             
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Explore the world of technology with complete guides, practical tips, and innovative solutions 
-              for all your digital needs. From hardware to software, we're here to help.
+              Jelajahi dunia teknologi dengan panduan lengkap, tips praktis, dan solusi inovatif 
+              untuk semua kebutuhan digital Anda. Dari hardware hingga software, kami siap membantu.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -111,7 +111,7 @@ export default function HomePage() {
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-0"
                 onClick={() => document.getElementById('articles')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Explore Articles
+                Jelajahi Artikel
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button 
@@ -120,7 +120,7 @@ export default function HomePage() {
                 className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 px-8 py-4 text-lg font-medium rounded-lg transition-all duration-300 hover:bg-blue-50 dark:hover:bg-blue-900/30"
                 onClick={() => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Browse Categories
+                Lihat Kategori
               </Button>
             </div>
           </div>
@@ -132,10 +132,10 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              What We Offer
+              Apa yang Kami Tawarkan
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Discover our comprehensive range of technology solutions and insights
+              Temukan berbagai solusi teknologi dan wawasan komprehensif kami
             </p>
           </div>
           
@@ -172,10 +172,10 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Latest by Category
+              Terbaru Berdasarkan Kategori
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Explore our newest articles organized by technology categories
+              Jelajahi artikel terbaru kami yang diorganisir berdasarkan kategori teknologi
             </p>
           </div>
 
@@ -201,7 +201,7 @@ export default function HomePage() {
                   className="border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 w-fit"
                   onClick={() => setSelectedCategoryId(category.id)}
                 >
-                  View All
+                  Lihat Semua
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
@@ -219,11 +219,11 @@ export default function HomePage() {
             <div className="flex items-center justify-center space-x-3 mb-4">
               <TrendingUp className="h-8 w-8 text-blue-600 dark:text-blue-400" />
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
-                Trending Now
+                Sedang Trending
               </h2>
             </div>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Most popular articles that our readers love
+              Artikel paling populer yang disukai pembaca kami
             </p>
           </div>
 
@@ -238,11 +238,11 @@ export default function HomePage() {
             <div className="flex items-center justify-center space-x-3 mb-4">
               <Shuffle className="h-8 w-8 text-purple-600 dark:text-purple-400" />
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
-                Discover More
+                Temukan Lebih Banyak
               </h2>
             </div>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Random picks from our extensive technology library
+              Pilihan acak dari perpustakaan teknologi ekstensif kami
             </p>
           </div>
 
@@ -255,10 +255,10 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              All Articles
+              Semua Artikel
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Browse our complete collection of technology articles
+              Jelajahi koleksi lengkap artikel teknologi kami
             </p>
           </div>
           
@@ -273,7 +273,7 @@ export default function HomePage() {
           {isLoading && (
             <div className="text-center py-20">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
-              <p className="text-gray-600 dark:text-gray-300 mt-6 text-lg">Loading amazing content...</p>
+              <p className="text-gray-600 dark:text-gray-300 mt-6 text-lg">Memuat konten menarik...</p>
             </div>
           )}
 
@@ -284,9 +284,9 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
               </div>
-              <p className="text-red-600 dark:text-red-400 text-lg mb-2">Failed to load articles</p>
+              <p className="text-red-600 dark:text-red-400 text-lg mb-2">Gagal memuat artikel</p>
               <p className="text-gray-500 dark:text-gray-400 text-sm">
-                {error instanceof Error ? error.message : "Unknown error"}
+                {error instanceof Error ? error.message : "Kesalahan tidak diketahui"}
               </p>
             </div>
           )}
@@ -307,7 +307,7 @@ export default function HomePage() {
                 </svg>
               </div>
               <p className="text-gray-600 dark:text-gray-300 text-lg">
-                No articles found for the selected category.
+                Tidak ada artikel yang ditemukan untuk kategori yang dipilih.
               </p>
             </div>
           )}
@@ -334,7 +334,7 @@ function CategoryArticles({ categoryId, startIndex = 0 }: { categoryId: number; 
   if (!data || !data.articles || data.articles.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 dark:text-gray-400">No articles available for this category yet.</p>
+        <p className="text-gray-500 dark:text-gray-400">Belum ada artikel tersedia untuk kategori ini.</p>
       </div>
     );
   }
@@ -365,7 +365,7 @@ function RecommendedArticles() {
   if (!data || !data.articles || data.articles.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 dark:text-gray-400">No articles available yet.</p>
+        <p className="text-gray-500 dark:text-gray-400">Belum ada artikel tersedia.</p>
       </div>
     );
   }
@@ -399,7 +399,7 @@ function RandomArticles() {
   if (!data || !data.articles || data.articles.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 dark:text-gray-400">No articles available yet.</p>
+        <p className="text-gray-500 dark:text-gray-400">Belum ada artikel tersedia.</p>
       </div>
     );
   }
