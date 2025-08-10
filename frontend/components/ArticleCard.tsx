@@ -26,24 +26,24 @@ export default function ArticleCard({ article, index = 0 }: ArticleCardProps) {
 
   return (
     <div 
-      className="group bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300"
+      className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-2xl hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:-translate-y-2"
       style={{
         animationDelay: `${index * 100}ms`,
         animation: 'fadeInUp 0.6s ease-out forwards'
       }}
     >
       {article.imageUrl && (
-        <div className="aspect-video overflow-hidden relative">
+        <div className="aspect-video overflow-hidden relative group-hover:shadow-lg">
           <img
             src={article.imageUrl}
             alt={article.title}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           {article.category && (
             <div className="absolute top-3 left-3">
               <Badge 
-                className="text-white border-0 backdrop-blur-sm bg-black/50"
+                className="text-white border-0 backdrop-blur-sm shadow-lg"
                 style={{ backgroundColor: `${article.category.color}CC` }}
               >
                 {article.category.name}
@@ -67,16 +67,20 @@ export default function ArticleCard({ article, index = 0 }: ArticleCardProps) {
         
         <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
           <div className="flex items-center space-x-1">
-            <Calendar className="h-4 w-4" />
+            <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+              <Calendar className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+            </div>
             <span>{formatDate(article.createdAt)}</span>
           </div>
           <div className="flex items-center space-x-1">
-            <Clock className="h-4 w-4" />
+            <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+              <Clock className="h-3 w-3 text-green-600 dark:text-green-400" />
+            </div>
             <span>{estimateReadTime(article.content)} min read</span>
           </div>
         </div>
         
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 line-clamp-2 leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 leading-tight group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
           <Link to={`/article/${article.id}`}>
             {article.title}
           </Link>
@@ -90,8 +94,9 @@ export default function ArticleCard({ article, index = 0 }: ArticleCardProps) {
           <Link to={`/article/${article.id}`} className="flex-1">
             <Button 
               variant="outline" 
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-200"
+              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:border-blue-300 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-xl font-semibold"
             >
+              📖
               Read More
             </Button>
           </Link>
@@ -103,7 +108,7 @@ export default function ArticleCard({ article, index = 0 }: ArticleCardProps) {
                   href={article.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30"
+                  className="p-2 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:scale-110"
                   title="External Link"
                 >
                   <ExternalLink className="h-4 w-4" />
@@ -114,7 +119,7 @@ export default function ArticleCard({ article, index = 0 }: ArticleCardProps) {
                   href={article.downloadLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 text-gray-400 dark:text-gray-500 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/30"
+                  className="p-2 text-gray-400 dark:text-gray-500 hover:text-green-600 dark:hover:text-green-400 transition-all duration-300 rounded-xl hover:bg-green-50 dark:hover:bg-green-900/30 hover:scale-110"
                   title="Download"
                 >
                   <Download className="h-4 w-4" />

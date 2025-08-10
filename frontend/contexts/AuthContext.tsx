@@ -30,16 +30,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (username: string, password: string) => {
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch(`${import.meta.env.VITE_CLIENT_TARGET}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "credentials": "include",
       },
       body: JSON.stringify({ username, password }),
     });
 
     if (!response.ok) {
-      throw new Error("Invalid credentials");
+      const errorText = await response.text();
+      console.error("Login error:", errorText);
+      throw new Error("Username atau password salah");
     }
 
     const data = await response.json();

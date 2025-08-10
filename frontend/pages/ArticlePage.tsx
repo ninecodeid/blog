@@ -106,7 +106,13 @@ export default function ArticlePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10 transition-colors duration-300 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-200 to-purple-200 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute bottom-40 left-20 w-48 h-48 bg-gradient-to-br from-green-200 to-teal-200 dark:from-green-900/20 dark:to-teal-900/20 rounded-full blur-3xl opacity-30"></div>
+      </div>
+      
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Navigation */}
@@ -130,17 +136,17 @@ export default function ArticlePage() {
 
           <article className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-2xl transition-colors duration-300">
             {article.imageUrl && (
-              <div className="aspect-video overflow-hidden relative">
+              <div className="aspect-video overflow-hidden relative group">
                 <img
                   src={article.imageUrl}
                   alt={article.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                 {article.category && (
                   <div className="absolute bottom-6 left-6">
                     <Badge 
-                      className="text-white border-0 backdrop-blur-sm text-lg px-4 py-2"
+                      className="text-white border-0 backdrop-blur-sm text-lg px-4 py-2 shadow-lg"
                       style={{ backgroundColor: `${article.category.color}CC` }}
                     >
                       {article.category.name}
@@ -163,33 +169,41 @@ export default function ArticlePage() {
               )}
 
               {/* Article Meta */}
-              <div className="flex flex-wrap items-center gap-6 text-gray-500 dark:text-gray-400 mb-8">
+              <div className="flex flex-wrap items-center gap-6 text-gray-500 dark:text-gray-400 mb-8 p-4 bg-gray-50 dark:bg-gray-700/30 rounded-xl backdrop-blur-sm">
                 <div className="flex items-center space-x-2">
-                  <Calendar className="h-5 w-5" />
+                  <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                    <Calendar className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  </div>
                   <span className="text-lg">{formatDate(article.createdAt)}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Clock className="h-5 w-5" />
+                  <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                    <Clock className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  </div>
                   <span className="text-lg">{estimateReadTime(article.content)} menit baca</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <BookOpen className="h-5 w-5" />
+                  <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                    <BookOpen className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                  </div>
                   <span className="text-lg">Artikel</span>
                 </div>
               </div>
 
               {/* Title */}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-6 leading-tight">
                 {article.title}
               </h1>
 
               {/* Description */}
-              <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed font-light">
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl mb-12 border border-blue-200/50 dark:border-blue-700/50">
+                <p className="text-xl sm:text-2xl text-gray-700 dark:text-gray-200 leading-relaxed font-medium">
                 {article.description}
-              </p>
+                </p>
+              </div>
 
               {/* Content */}
-              <div className="prose prose-lg prose-gray dark:prose-invert max-w-none">
+              <div className="prose prose-lg prose-gray dark:prose-invert max-w-none bg-white/50 dark:bg-gray-800/50 p-8 rounded-2xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
                 <div className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap text-lg sm:text-xl">
                   {article.content}
                 </div>
@@ -197,8 +211,11 @@ export default function ArticlePage() {
 
               {/* Links Section */}
               {(article.link || article.downloadLink) && (
-                <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800/50 dark:to-blue-900/20 p-6 rounded-2xl">
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6 flex items-center">
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                      <ExternalLink className="h-4 w-4 text-white" />
+                    </div>
                     Tautan Terkait
                   </h3>
                   <div className="flex flex-col sm:flex-row gap-4">
@@ -210,7 +227,7 @@ export default function ArticlePage() {
                         className="flex-1"
                       >
                         <Button 
-                          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-lg rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+                          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 text-lg rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0"
                         >
                           <ExternalLink className="h-5 w-5 mr-3" />
                           Tautan Eksternal
@@ -225,7 +242,7 @@ export default function ArticlePage() {
                         className="flex-1"
                       >
                         <Button 
-                          className="w-full bg-green-600 hover:bg-green-700 text-white py-4 text-lg rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+                          className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-4 text-lg rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0"
                         >
                           <Download className="h-5 w-5 mr-3" />
                           Unduh
@@ -239,12 +256,14 @@ export default function ArticlePage() {
           </article>
 
           {/* Back to Home CTA */}
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-3xl blur-3xl opacity-50"></div>
             <Link to="/">
               <Button 
                 size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl border-0"
+                className="relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0 backdrop-blur-sm"
               >
+                🚀
                 Jelajahi Artikel Lainnya
               </Button>
             </Link>

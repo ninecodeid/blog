@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "../contexts/AuthContext";
+import Footer from "../components/Footer";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -43,15 +44,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
       {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 dark:bg-blue-900/30 rounded-full blur-3xl opacity-70"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 dark:bg-purple-900/30 rounded-full blur-3xl opacity-70"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl opacity-50"></div>
       </div>
 
-      <div className="w-full max-w-md relative z-10">
+      <div className="flex-1 flex items-center justify-center p-4 relative z-10">
+        <div className="w-full max-w-md">
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 dark:border-gray-700/50 p-8 lg:p-10">
           {/* Header */}
           <div className="text-center mb-8">
@@ -129,13 +131,16 @@ export default function LoginPage() {
           </form>
         </div>
 
-        {/* Footer */}
-        <div className="text-center mt-8">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            © 2025 EndieTech. Semua hak dilindungi.
-          </p>
+          {/* Footer */}
+          <div className="text-center mt-8">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              © 2025 EndieTech. Semua hak dilindungi.
+            </p>
+          </div>
+        </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
