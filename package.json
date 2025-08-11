@@ -1,10 +1,8 @@
 {
-  "name": "leap-app",
+  "name": "teknisi-komputer-blog",
   "version": "1.0.0",
-  "type": "module",
-  "packageManager": "bun",
-  "workspaces": [
-    "backend",
-    "frontend"
-  ]
+  "scripts": {
+    "build": "cd backend && bun run build"
+  },
+  "packageManager": "bun"
 }
