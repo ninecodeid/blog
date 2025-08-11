@@ -30,7 +30,62 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (username: string, password: string) => {
-    const response = await fetch(`${import.meta.env.VITE_CLIENT_TARGET}/auth/login`, {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_CLIENT_TARGET}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Login error response:", errorText);
+        throw new Error("Username atau password salah");
+      }
+
+      const data = await response.json();
+      
+      setToken(data.token);
+      setUser(data.user);
+      
+      localStorage.setItem("admin_token", data.token);
+      localStorage.setItem("admin_user", JSON.stringify(data.user));
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("admin_token");
+    localStorage.removeItem("admin_user");
+  };
+
+  return (
+    <AuthContext.Provider value={{
+      user,
+      token,
+      login,
+      logout,
+      isAuthenticated: !!token && !!user,
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
       method: "POST",
       headers: {
         "Content-Type": "application/json",

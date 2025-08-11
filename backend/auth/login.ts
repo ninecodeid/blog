@@ -17,8 +17,11 @@ interface LoginResponse {
 export const login = api<LoginRequest, LoginResponse>(
   { expose: true, method: "POST", path: "/auth/login" },
   async (req) => {
+    console.log("Login attempt:", { username: req.username, password: "***" });
+    
     // Simple hardcoded credentials - in production, use proper password hashing
     if (req.username === "endie" && req.password === "endie") {
+      console.log("Login successful");
       return {
         token: "admin-token-endie",
         user: {
@@ -28,6 +31,7 @@ export const login = api<LoginRequest, LoginResponse>(
       };
     }
 
+    console.log("Login failed - invalid credentials");
     throw new Error("Invalid credentials");
   }
 );

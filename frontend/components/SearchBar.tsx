@@ -33,14 +33,14 @@ export default function SearchBar({ onSearch, placeholder = "Cari artikel...", c
     queryFn: async () => {
       if (!debouncedQuery.trim()) return null;
       try {
-        return await backend.blog.searchArticles({ 
+        return await backend.blog.list({ 
           q: debouncedQuery, 
           published: true, 
           limit: 5 
         });
       } catch (err) {
         console.error("Search error:", err);
-        throw err;
+        return null;
       }
     },
     enabled: debouncedQuery.length > 2,

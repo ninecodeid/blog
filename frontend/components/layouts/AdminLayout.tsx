@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import AdminSidebar from "../AdminSidebar";
 import ThemeToggle from "../ThemeToggle";
 import { useAuth } from "../../contexts/AuthContext";
+import Footer from "../Footer";
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -42,6 +43,8 @@ export default function AdminLayout() {
         <div className="min-h-screen">
           <Outlet />
         </div>
+        
+        <Footer />
       </main>
     </div>
   );
